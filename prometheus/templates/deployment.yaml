@@ -50,7 +50,7 @@ spec:
             - name: KUBE_CONTROLLER_TARGET_ADDRESS
               value: {{.Values.kube_controller_manager}}
             - name: KUBE_SCHEDULER_TARGET_ADDRESS
-              value: {{.Values.kube_scheduler_manager}}
+              value: {{.Values.kube_scheduler}}
             - name: KUBE_ETCD_TARGET_ADDRESS
               value: {{.Values.etcd_target}}
             - name: MASTER_CADVISOR_TARGET_ADDRESS
