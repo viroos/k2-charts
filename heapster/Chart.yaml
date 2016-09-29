@@ -1,4 +1,4 @@
-name: podpincher
-description: Pod pincher viz Helm chart
+name: heapster
+description: Heapster standalone chart
 version: 0.1.0
 home: https://github.com/samsung-cnct/k2-charts
