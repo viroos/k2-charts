@@ -1,4 +1,4 @@
-CHARTS := $(shell ls -dm */ | sed 's/,//g' | sed 's/cnct-atlas//g' | sed 's/\///g')
+CHARTS := $(shell ls -d */ | tr '\n' ' ' | sed 's/,//g' | sed 's/cnct-atlas//g' | sed 's/\///g')
 
 .PHONY: clean all package makepath copy index sync acl
 all: package makepath copy index sync acl
