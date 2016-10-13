@@ -1,0 +1,18 @@
+# Default values for zookeeper.
+# This is a YAML-formatted file.
+# Declare name/value pairs to be passed into your templates.
+# name: value
+peer_port: 2888
+peer_name: peer
+election_port: 3888
+election_name: leader
+replicas: 3
+storage_class: anything
+storage_size: 20Gi
+zk_version: 3.5.0-alpha
+install_dir: /opt
+work_dir: /work-dir
+data_dir: /tmp/zookeeper
+name: zk
+image: gcr.io/google_containers/zookeeper-install
+image_version: 0.1
