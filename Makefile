@@ -1,9 +1,12 @@
-CHARTS := $(shell ls -d */ | tr '\n' ' ' | sed 's/,//g' | sed 's/cnct-atlas//g' | sed 's/\///g')
+CHARTS := $(shell find . -type d -maxdepth 1 -name '[[:alnum:]]*' | tr '\n' ' ' | sed 's#./##g')
+DEP_CHARTS := $(shell find . -path '*/requirements.yaml' | tr '\n' ' ' | sed -E 's#\./|/requirements\.yaml##g')
 
-.PHONY: clean all package makepath copy index sync acl
+.PHONY: clean all package makepath copy index sync acl dependency-update
 all: package makepath copy index sync
 
-package: ; $(foreach chart,$(CHARTS),(helm package $(chart) --save=false) &&) :
+dependency-update: ; $(foreach chart,$(DEP_CHARTS),(helm dependency update $(chart)) &&) :
+
+package: dependency-update ; $(foreach chart,$(CHARTS),(helm package $(chart) --save=false) &&) :
 
 makepath:
 	@mkdir -p cnct-atlas

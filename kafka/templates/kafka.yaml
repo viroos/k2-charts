@@ -1,0 +1,122 @@
+# A headless service to create DNS records for kafka PetSet
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: {{.Values.name}}
+  labels:
+    app: {{.Values.name}}
+spec:
+  ports:
+  - port: {{.Values.peer_node}}
+    name: {{.Values.peer_name}}
+  clusterIP: None
+  selector:
+    app: {{.Values.name}}
+---
+# kafka PetSet
+apiVersion: apps/v1alpha1
+kind: PetSet
+metadata:
+  name: {{.Values.name}}
+spec:
+  serviceName: "{{.Values.name}}"
+  replicas: {{.Values.replicas}}
+  template:
+    metadata:
+      labels:
+        app: {{.Values.name}}
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+      containers:
+      - name: {{.Values.name}}
+        image: {{.Values.image}}
+        ports:
+        - containerPort: {{.Values.peer_node}}
+        env:
+        {{range .Values.env_vars}}
+        - name: {{.name}}
+          value: "{{.value}}"
+        {{end}}
+        - name: KUBE_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: datadir
+          mountPath: {{.Values.datadir}}
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: {{.Values.storage_class}}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{.Values.storage_size}}
+---
+# configmap for driving kafka-monitor deploy
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Values.name}}-monitor-properties
+  labels:
+    app: {{.Values.name}}-monitor
+data:
+  kafka-monitor.properties: {{.Values.kafka_monitor_properties}}
+---
+# kafka-monitor Deployment
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{.Values.name}}-monitor
+  labels:
+    app: {{.Values.name}}-monitor
+spec:
+  replicas: {{.Values.monitor_replicas}}
+  selector:
+    matchLabels:
+      app: {{.Values.name}}-monitor
+  template:
+    metadata:
+      labels:
+        app: {{.Values.name}}-monitor
+    spec:
+      containers:
+        - name: {{.Values.name}}-monitor
+          image: {{.Values.kafka_monitor_image}}
+          imagePullPolicy: Always
+          ports:
+          - containerPort: {{.Values.kafka_monitor_gui_port}}
+            name: gui
+          - containerPort: {{.Values.kafka_monitor_metrics_port}}
+            name: metrics
+          volumeMounts:
+            - name: config-volume
+              mountPath: {{.Values.kafka_monitor_config_path}}
+      volumes:
+        - name: config-volume
+          configMap:
+            name: kafka-monitor-properties
+---
+# kafka-monitor service
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.name}}-monitor
+  labels:
+    app: {{.Values.name}}-monitor
+spec:
+  type: LoadBalancer
+  ports:
+  - port: {{.Values.kafka_monitor_gui_port}}
+    name: gui
+  - port: {{.Values.kafka_monitor_metrics_port}}
+    name: metrics
+  selector:
+    app: {{.Values.name}}-monitor
+  
