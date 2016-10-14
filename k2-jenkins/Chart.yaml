@@ -1,0 +1,11 @@
+name: k2-jenkins
+home: https://github.com/jfelten/kraken-ci-chart/
+version: 0.0.1
+description: A Jenkins Helm chart for testing k2
+sources:
+  - https://github.com/jenkinsci/jenkins
+  - https://github.com/jenkinsci/docker-jnlp-slave
+maintainers:
+  - name: John Felten
+    email: john.felten@gmail.com
+icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png

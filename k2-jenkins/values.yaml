@@ -1,0 +1,126 @@
+# Default values for jenkins.
+# This is a YAML-formatted file.
+# Declare name/value pairs to be passed into your templates.
+# name: value
+
+Jenkins:
+  Master:
+    Name: jenkins-master
+    Image: "quay.io/samsung_cnct/k2-ci-jenkins"
+    ImageTag: "latest"
+    ImagePullPolicy: "Always"
+    Component: "jenkins-master"
+    AdminUser: admin
+  # AdminPassword: <defaults to random>
+    Cpu: "200m"
+    Memory: "512Mi"
+  # Set min/max heap here if needed with:
+  # JavaOpts: "-Xms512m -Xmx512m"
+    ServicePort: 8080
+  # For minikube, set this to NodePort, elsewhere use LoadBalancer
+    ServiceType: NodePort
+    ContainerPort: 8080
+    SlaveListenerPort: 50000
+    kraken_ci_name: "testlet2"
+    kraken_ci_hostname: "testlet2.kubeme.io"
+    letsencrypt_email: "maratoid+samsungjenkins@gmail.com"
+    test_instance: "no"
+    secrets_dir: "/var/jenkins_home/secrets"
+    AdminPassword: "admin"
+    JobsRepo: "https://github.com/samsung-cnct/kraken-ci-jobs"
+  
+  Agent:
+    Image: jenkinsci/jnlp-slave
+    ImageTag: 2.52
+    Cpu: "200m"
+    Memory: "256Mi"
+  
+  Persistence:
+    Name: data_volume
+    Image: "quay.io/samsung_cnct/k2-ci-data_volume"
+    ImagePullPolicy: "Always" 
+    Component: "data_volume"
+    Enabled: true
+    StorageClass: generic
+    AccessMode: ReadWriteOnce
+    Size: 8Gi
+    
+  Backup:
+    Name: jenkins_backup
+    Image: "quay.io/samsung_cnct/k2-ci-jenkins-backup"
+    ImagePullPolicy: "Always"
+    Component: "jenkins-backup"
+    Enabled: true
+    StorageClass: generic
+    AccessMode: ReadWriteOnce
+    Size: 8Gi
+
+
+K2-CI:
+  aws_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+  aws_region: "{{ lookup('env','AWS_DEFAULT_REGION') }}"
+  aws_secret: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+  backup_bucket: "{{ kraken_ci_name }}-backup"
+  backup_container_name: jenkins-backup
+  backup_container_path: "{{ containers_dir }}/jenkins-backup"
+  backup_container_tag: samsung_ag/jenkins-backup
+  cert_container_name: letsencrypt
+  conf_container_name: docker-gen
+  config_bucket: sundry-automata
+  config_bucket_key: "{{ kraken_ci_name }}-terraform-state"
+  containers_dir: "{{ ansible_env.HOME }}/containers"
+  data_container_name: jenkins-data
+  data_container_path: "{{ containers_dir }}/data_volume"
+  data_container_tag: samsung_ag/jenkins-data
+  docker_api_version: 1.18
+  dump_data: "{{ lookup('env','DUMP_JENKINS_DATA')|default('no') }}"
+  github_client_id: "{{ lookup('env','GITHUB_CLIENT_ID') }}"
+  github_client_key: "{{ lookup('env','GITHUB_CLIENT_KEY') }}"
+  github_token: "{{ lookup('env','GITHUB_ACCESS_TOKEN') }}"
+  github_username: "{{ lookup('env','GITHUB_USERNAME') }}"
+  jenkins_admin_usernames: "countspongebob l337ch maratoid mikeln richardkaufmann Rick-Lindberg SamsungAGJenkinsBot spiffxp davidewatson cwazy1 coffeepac venezia jooyeong alejandroEsc sostheim DStorck leahnp kmansel"
+  jenkins_container_name: jenkins
+  jenkins_container_path: "{{ containers_dir }}/jenkins"
+  jenkins_container_tag: samsung_ag/jenkins-server
+  jenkins_ssh_key_path: "{{ playbook_dir }}/keys/{{ kraken_ci_hostname }}"
+  jenkins_ssh_key: "{{ jenkins_ssh_key_path }}/id_rsa.pub"
+  kraken_ci_jobs_repo: https://github.com/samsung-cnct/kraken-ci-jobs
+  kraken_ci_jobs_repo_branch: master
+  kraken_ci_name: "{{ lookup('env', 'KRAKEN_CI_NAME') }}"
+  kraken_ci_hostname: "{{ kraken_ci_name }}.kubeme.io"
+  kraken_user_prefix: "{{ kraken_ci_name }}"
+  letsencrypt_email: "maratoid+samsungjenkins@gmail.com"
+  nginx_container_name: nginx
+  nginx_container_path: "{{ containers_dir }}/nginx"
+  private_jenkins_ssh_key: "{{ jenkins_ssh_key_path }}/id_rsa"
+  secrets_dir: "{{ ansible_env.HOME }}/secrets"
+  slack_api_token: "{{ lookup('env','SLACK_API_TOKEN') }}"
+  slack_domain: samsung-cnct
+  slack_room: "#pipeline"
+  test_instance: "{{ lookup('env','TEST_INSTANCE')|default('no')|replace('yes','true')|replace('no','false') }}"
+  job_builder:
+    ci_admin_list: "{{ jenkins_admin_usernames.split(' ') }}"
+    slack_api_token: "{{ slack_api_token }}"
+    slack_room: "{{ slack_room }}"
+    slack_domain: "{{ slack_domain }}"
+    ci_hostname: "{{ kraken_ci_name }}.kubeme.io"
+  terraform_variables:
+    aws_ebs_size: "200"
+    aws_instance_type: m4.2xlarge
+    aws_key: "{{ aws_key }}"
+    aws_key_name: "{{ kraken_ci_name }}_key"
+    aws_region: "{{ aws_region }}"
+    aws_secgroup_name: "{{ kraken_ci_name }}_secgroup"
+    aws_secret: "{{ aws_secret }}"
+    kraken_ci_hostname: "{{ kraken_ci_hostname }}"
+    clusters_bucket: "{{ kraken_ci_name }}-clusters"
+    coreos_channel: beta
+    coreos_reboot_strategy: "off"
+    coreos_version: "1122.1.0"
+    docker_api_version: "{{ docker_api_version }}"
+    github_client_id: "{{ github_client_id }}"
+    github_client_key: "{{ github_client_key }}"
+    jenkins_ssh_key:  "{{ jenkins_ssh_key }}"
+    private_jenkins_ssh_key: "{{ private_jenkins_ssh_key }}"
+    route53_zone_id: ZX7O08V47RE60
+  
