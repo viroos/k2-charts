@@ -84,7 +84,7 @@ spec:
                 - "-ec"
                 - |
                   echo "LOADING JOBS";
-                  while [ $(curl -s -w "%{http_code}" http://localhost:8080/api/json -o /dev/null) != "200" ]; 
+                  while [ $(curl -s -w "%{http_code}" http://localhost:{{.Values.Jenkins.Master.ContainerPort}}/api/json -o /dev/null) != "200" ]; 
                     do 
                       sleep 1 && echo -n .; 
                     done
