@@ -27,6 +27,7 @@ Jenkins:
     test_instance: "no"
     secrets_dir: "/var/jenkins_home/secrets"
     AdminPassword: "admin"
+    JobsRepo: "https://github.com/samsung-cnct/kraken-ci-jobs"
   
   Agent:
     Image: jenkinsci/jnlp-slave
