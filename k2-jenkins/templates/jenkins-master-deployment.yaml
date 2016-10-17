@@ -1,0 +1,111 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    heritage: {{.Release.Service | quote }}
+    release: {{.Release.Name | quote }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    component: "{{.Release.Name}}-{{.Values.Jenkins.Master.Name}}"
+  annotations:
+    "helm.sh/created": {{.Release.Time.Seconds | quote }}
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      component: "{{.Release.Name}}-{{.Values.Jenkins.Master.Component}}"
+  template:
+    metadata:
+      labels:
+        heritage: {{.Release.Service | quote }}
+        release: {{.Release.Name | quote }}
+        chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+        component: "{{.Release.Name}}-{{.Values.Jenkins.Master.Component}}"
+
+    spec:
+      securityContext:
+        runAsUser: 0
+      containers:
+        - name: {{ template "fullname" . }}
+          image: "{{.Values.Jenkins.Master.Image}}:{{.Values.Jenkins.Master.ImageTag}}"
+          imagePullPolicy: "{{.Values.Jenkins.Master.ImagePullPolicy}}"
+          args: [ "--argumentsRealm.passwd.$(ADMIN_USER)=$(ADMIN_PASSWORD)",  "--argumentsRealm.roles.$(ADMIN_USER)=admin"]
+          env:
+            - name: JAVA_OPTS
+              value: "{{ default "" .Values.Jenkins.Master.JavaOpts}}"
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "fullname" . }}
+                  key: jenkins-admin-password
+            - name: ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ template "fullname" . }}
+                  key: jenkins-admin-user
+            - name: VIRTUAL_HOST
+              value: "{{ default "" .Values.Jenkins.Master.kraken_ci_hostname}}"
+            - name: VIRTUAL_PORT
+              value: "{{default "" .Values.Jenkins.Master.ContainerPort}}"
+            - name: LETSENCRYPT_HOST
+              value: "{{.Values.Jenkins.Master.kraken_ci_hostname}}"
+            - name: LETSENCRYPT_EMAIL
+              value: "{{.Values.Jenkins.Master.letsencrypt_email}}"
+            - name: LETSENCRYPT_TEST
+              value: "{{ default "" .Values.Jenkins.Master.test_instance }}"
+          ports:
+            - containerPort: {{.Values.Jenkins.Master.ContainerPort}}
+              name: http
+            - containerPort: {{.Values.Jenkins.Master.SlaveListenerPort}}
+              name: slavelistener
+          resources:
+            requests:
+              cpu: "{{.Values.Jenkins.Master.Cpu}}"
+              memory: "{{.Values.Jenkins.Master.Memory}}"
+          livenessProbe:
+            httpGet:
+              path: /api/json
+              port: http
+            initialDelaySeconds: 250
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /api/json
+              port: http
+            initialDelaySeconds: 15
+            timeoutSeconds: 2
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                - "/bin/sh"
+                - "-ec"
+                - |
+                  echo "LOADING JOBS";
+                  while [ $(curl -s -w "%{http_code}" http://localhost:8080/api/json -o /dev/null) != "200" ]; 
+                    do 
+                      sleep 1 && echo -n .; 
+                    done
+                  git clone {{.Values.Jenkins.Master.JobsRepo}} /etc/jenkins_jobs/jobs
+                  jenkins-jobs update --recursive --exclude /etc/jenkins_jobs/jobs/excluded-on-jenkins:/etc/jenkins_jobs/jobs/k2-configs /etc/jenkins_jobs
+          volumeMounts:
+            -
+              mountPath: /etc/jenkins_jobs/jobs
+              name: jenkins-jobs
+              readOnly: false
+
+      imagePullSecrets:
+      - name: myregistrykey
+      volumes:
+      
+      {{- if .Values.Jenkins.Persistence.Enabled }}
+      - name: jenkins-jobs
+        persistentVolumeClaim:
+          claimName: {{ template "fullname" . }}
+      {{- else }}
+       name: jenkins-jobs
+        emptyDir: {}
+      {{- end -}}
+      
