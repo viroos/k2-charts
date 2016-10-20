@@ -1,0 +1,122 @@
+# A headless service to create DNS records
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+  name: {{.Values.name}}
+  labels:
+    app: {{.Values.name}}
+spec:
+  ports:
+  - port: {{.Values.peer_port}}
+    name: {{.Values.peer_name}}
+  - port: {{.Values.election_port}}
+    name: {{.Values.election_name}}
+  clusterIP: None
+  selector:
+    app: {{.Values.name}}
+---
+apiVersion: apps/v1alpha1
+kind: PetSet
+metadata:
+  name: {{.Values.name}}
+spec:
+  serviceName: "{{.Values.name}}"
+  replicas: {{.Values.replicas}}
+  template:
+    metadata:
+      labels:
+        app: {{.Values.name}}
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+        pod.alpha.kubernetes.io/init-containers: '[
+            {
+                "name": "install",
+                "image": "{{.Values.image}}:{{.Values.image_version}}",
+                "imagePullPolicy": "Always",
+                "args": ["--version={{.Values.zk_version}}", "--install-into={{.Values.install_dir}}", "--work-dir={{.Values.work_dir}}"],
+                "volumeMounts": [
+                    {
+                        "name": "opt",
+                        "mountPath": "{{.Values.install_dir}}"
+                    },
+                    {
+                        "name": "workdir",
+                        "mountPath": "{{.Values.work_dir}}"
+                    }
+                ]
+            },
+            {
+                "name": "bootstrap",
+                "image": "java:openjdk-8-jre",
+                "command": ["{{.Values.work_dir}}/peer-finder"],
+                "args": ["-on-start=\"{{.Values.work_dir}}/on-start.sh\"", "-service=zk"],
+                "env": [
+                  {
+                      "name": "POD_NAMESPACE",
+                      "valueFrom": {
+                          "fieldRef": {
+                              "apiVersion": "v1",
+                              "fieldPath": "metadata.namespace"
+                          }
+                      }
+                   }
+                ],
+                "volumeMounts": [
+                    {
+                        "name": "opt",
+                        "mountPath": "{{.Values.install_dir}}/"
+                    },
+                    {
+                        "name": "workdir",
+                        "mountPath": "{{.Values.work_dir}}"
+                    },
+                    {
+                        "name": "datadir",
+                        "mountPath": "{{.Values.data_dir}}"
+                    }
+                ]
+            }
+        ]'
+    spec:
+      containers:
+      - name: {{.Values.name}}
+        image: java:openjdk-8-jre
+        ports:
+        - containerPort: {{.Values.peer_port}}
+          name: {{.Values.peer_name}}
+        - containerPort: {{.Values.election_port}}
+          name: {{.Values.election_name}}
+        command:
+        - /opt/zookeeper/bin/zkServer.sh
+        args:
+        - start-foreground
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "/opt/zookeeper/bin/zkCli.sh ls /"
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+        volumeMounts:
+        - name: datadir
+          mountPath: {{.Values.data_dir}}
+        - name: opt
+          mountPath: {{.Values.install_dir}}/
+      volumes:
+      - name: opt
+        emptyDir: {}
+      - name: workdir
+        emptyDir: {}
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: {{.Values.storage_class}}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{.Values.storage_size}}
