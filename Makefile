@@ -1,5 +1,5 @@
-CHARTS := $(shell find . -type d -maxdepth 1 -name '[[:alnum:]]*' | tr '\n' ' ' | sed 's#./##g')
-DEP_CHARTS := $(shell find . -path '*/requirements.yaml' | tr '\n' ' ' | sed -E 's#\./|/requirements\.yaml##g')
+CHARTS := $(shell find . -type d -maxdepth 1 -name '[[:alnum:]]*' | tr '\n' ' ' | sed 's:./::g' )
+DEP_CHARTS := $(shell find . -path '*/requirements.yaml' | tr '\n' ' ' | sed -E 's:\./|/requirements\.yaml::g' )
 
 .PHONY: clean all package makepath copy index sync acl dependency-update
 all: package makepath copy index sync
