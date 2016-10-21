@@ -1,0 +1,9 @@
+description: Deploy Kafka as a petset
+name: kafka
+version: 0.1.0
+keywords: [kafka, java]
+home: https://kafka.apache.org/
+maintainers:
+ - name: Pat Christopher
+   email: coffeepac@gmail.com
+engine: gotpl
