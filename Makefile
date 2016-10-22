@@ -1,10 +1,13 @@
-CHARTS := $(shell find . -type d -maxdepth 1 -name '[[:alnum:]]*' | tr '\n' ' ' | sed 's:./::g' )
-DEP_CHARTS := $(shell find . -path '*/requirements.yaml' | tr '\n' ' ' | sed -E 's:\./|/requirements\.yaml::g' )
+CHARTS := $(shell find . -path '*/Chart.yaml' | tr '\n' ' ' | sed -E 's:\./|/Chart\.yaml::g')
+DEP_CHARTS := $(shell find . -path '*/requirements.yaml' | tr '\n' ' ' |  sed -E 's:\./|/requirements\.yaml::g')
 
 .PHONY: clean all package makepath copy index sync acl dependency-update
 all: package makepath copy index sync
 
-dependency-update: ; $(foreach chart,$(DEP_CHARTS),(helm dependency update $(chart)) &&) :
+dependency-update:
+	helm init -c
+	helm repo add atlas http://atlas.cnct.io
+	$(foreach chart,$(DEP_CHARTS),(helm dependency update --debug $(chart); echo $?) && ) :
 
 package: dependency-update ; $(foreach chart,$(CHARTS),(helm package $(chart) --save=false) &&) :
 
