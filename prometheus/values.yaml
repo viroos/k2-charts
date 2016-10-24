@@ -20,4 +20,3 @@ pushgateway_image: "prom/pushgateway:latest"
 pushgateway_port: 9091
 pushgateway_node_port: 30362
 sidecar_image: "lachlanevenson/k8s-kubectl"
-node_selector: "node-001"

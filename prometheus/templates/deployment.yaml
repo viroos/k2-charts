@@ -78,8 +78,6 @@ spec:
           image: {{.Values.sidecar_image}}
           args: [ "proxy", "-p",  "8001" ]
       dnsPolicy: ClusterFirst
-      nodeSelector:
-        kraken-node: {{.Values.node_selector}}
       restartPolicy: Always
       volumes:
       - name: data
