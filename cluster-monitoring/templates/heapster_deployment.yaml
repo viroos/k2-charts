@@ -2,7 +2,6 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: heapster-{{.Values.heapster_version}}
-  namespace: kube-system
   labels:
     k8s-app: heapster
     kubernetes.io/cluster-service: "true"
