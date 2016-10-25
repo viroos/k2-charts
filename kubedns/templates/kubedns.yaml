@@ -7,7 +7,6 @@ metadata:
     kubernetes.io/cluster-service: "true"
     version: {{.Values.version}}
   name: {{.Values.k8sapp}}
-  namespace: kube-system
 spec:
   replicas: {{.Values.replicas}}
   selector:
