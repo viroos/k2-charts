@@ -107,7 +107,6 @@ metadata:
     kubernetes.io/cluster-service: "true"
     kubernetes.io/name: "KubeDNS"
   name: {{.Values.k8sapp}}
-  namespace: kube-system
 spec:
   ports:
   - name: dns
