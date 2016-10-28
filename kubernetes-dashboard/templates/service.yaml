@@ -5,7 +5,6 @@ metadata:
   labels:
     app: kubernetes-dashboard
   name: kubernetes-dashboard
-  namespace: kube-system
 spec:
   type: "LoadBalancer"
   ports:

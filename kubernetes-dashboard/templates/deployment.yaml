@@ -5,9 +5,8 @@ metadata:
   labels:
     app: kubernetes-dashboard
   name: kubernetes-dashboard
-  namespace: kube-system
 spec:
-  replicas: {{.Values.replicas}}
+  replicas: {{.Values.replicas | quote }}
   selector:
     matchLabels:
       app: kubernetes-dashboard
@@ -18,7 +17,7 @@ spec:
     spec:
       containers:
       - name: kubernetes-dashboard
-        image: {{.Values.dashboard_image}}
+        image: {{.Values.dashboard_image | quote }}
         imagePullPolicy: Always
         ports:
         - containerPort: 9090
