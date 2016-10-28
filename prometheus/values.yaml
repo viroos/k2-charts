@@ -1,6 +1,5 @@
 # Default values for prometheus.
 # This is a YAML-formatted file. 
-namespace: default
 replicas: 1
 color: E5CCFF
 dburl: "sqlite3:/promdash/file.sqlite3"

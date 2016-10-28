@@ -7,7 +7,6 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: uge-rest
-  namespace: uge-scheduler
 type: Opaque
 data:
   passwd: {{ .Values.scheduler_password }}
@@ -16,7 +15,6 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: gcr-registry
-  namespace: uge-scheduler
 type: kubernetes.io/dockercfg
 data:
   .dockercfg: {{ .Values.dockercfg_base64 }}
@@ -25,7 +23,6 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: kube-uge
-  namespace: uge-scheduler
   labels:
     kubernetes.io/cluster-service: "true"
 spec:
