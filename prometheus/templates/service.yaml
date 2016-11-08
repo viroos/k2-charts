@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -11,11 +12,6 @@ spec:
       port: {{.Values.prometheus_port}}
       protocol: TCP
       targetPort: {{.Values.prometheus_port}}
-    - name: promdash
-      nodePort: {{.Values.promdash_node_port}}
-      port: {{.Values.promdash_port}}
-      protocol: TCP
-      targetPort: {{.Values.promdash_port}}
     - name: pushgateway
       port: {{.Values.pushgateway_port}}
       protocol: TCP
@@ -24,4 +20,4 @@ spec:
   selector:
     name: prometheus
   sessionAffinity: None
-  type: NodePort
+  type: LoadBalancer
