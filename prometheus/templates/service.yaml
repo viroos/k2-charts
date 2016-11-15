@@ -9,15 +9,15 @@ spec:
   ports:
     - name: prometheus
       nodePort: {{.Values.prometheus_node_port}}
+      targetPort: {{.Values.prometheus_port}}
       port: {{.Values.prometheus_port}}
       protocol: TCP
-      targetPort: {{.Values.prometheus_port}}
     - name: pushgateway
+      nodePort: {{.Values.pushgateway_node_port}}
+      targetPort: {{.Values.pushgateway_port}}
       port: {{.Values.pushgateway_port}}
       protocol: TCP
-      targetPort: {{.Values.pushgateway_port}}
-      nodePort: {{.Values.pushgateway_node_port}}
   selector:
     name: prometheus
   sessionAffinity: None
-  type: LoadBalancer
+  type: NodePort

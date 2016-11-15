@@ -15,3 +15,7 @@ kubelet_cadvisor_target: "127.0.0.1:11111"
 pushgateway_image: "prom/pushgateway:0.3.0"
 pushgateway_port: 9091
 pushgateway_node_port: 30362
+config_dir: /etc/prometheus/
+data_dir: /prometheus
+storage_class: anything
+storage_size: 1Gi
