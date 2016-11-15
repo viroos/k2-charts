@@ -4,7 +4,6 @@ color: E5CCFF
 prometheus_image: "prom/prometheus:v1.2.1"
 prometheus_port: 9090
 prometheus_node_port: 30360
-storage_local_retention: '876000h'
 kube_apiserver: "localhost:8001"
 kube_controller_manager: "127.0.0.1:10252"
 kube_scheduler: "127.0.0.1:10251"
@@ -18,4 +17,6 @@ pushgateway_node_port: 30362
 config_dir: /etc/prometheus/
 data_dir: /prometheus
 storage_class: anything
+# 1Gi is arbitrary here. See https://prometheus.io/docs/operating/storage/ for
+# volume sizing information.
 storage_size: 1Gi
