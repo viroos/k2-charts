@@ -1,0 +1,58 @@
+---
+apiVersion: apps/v1alpha1
+kind: PetSet
+metadata:
+  labels:
+    app: prometheus
+    name: prometheus
+  name: prometheus
+spec:
+  serviceName: prometheus
+  replicas: {{.Values.replicas}}
+  template:
+    app: prometheus
+    metadata:
+      labels:
+        app: prometheus
+        cagby.io/color: {{.Values.color}}
+        name: prometheus
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+      containers:
+      - name: prometheus
+        image: {{.Values.prometheus_image}}
+        imagePullPolicy: Always
+        args:
+          - '-config.file=/etc/prometheus/prometheus.yml'
+        ports:
+        - containerPort: {{.Values.prometheus_port}}
+          hostPort: {{.Values.prometheus_port}}
+          protocol: TCP
+        volumeMounts:
+        - mountPath: {{.Values.config_dir}}
+          name: config
+        - mountPath: {{.Values.data_dir}}
+          name: data
+      - name: pushgateway
+        image: {{.Values.pushgateway_image}}
+        ports:
+          - containerPort: {{.Values.pushgateway_port}}
+            hostPort: {{.Values.pushgateway_port}}
+            protocol: TCP
+      volumes:
+      - name: config
+        configMap:
+          name: prometheus
+    dnsPolicy: ClusterFirst
+    restartPolicy: Always
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      annotations:
+        volume.alpha.kubernetes.io/storage-class: {{.Values.storage_class}}
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: {{.Values.storage_size}}
