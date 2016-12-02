@@ -1,0 +1,31 @@
+# Default values for elasticsearch.
+# This is a YAML-formatted file.
+# Declare name/value pairs to be passed into your templates.
+# name: value
+
+#Services
+image: quay.io/samsung_cnct/elasticsearch:0.1
+replicas: 3
+name: elasticsearch
+port: 9200 
+port_name: http
+port_selector: elasticsearch-data
+cluster_name: elasticsearch-cluster
+cluster_port: 9300
+cluster_port_name: cluster-comms
+#Master PetSet
+master_name: elasticsearch-master
+master_imagePullPolicy: Always
+master_cpu_limits: 500m
+master_cpu_requests: 500m
+master_memory_limits: 4Gi
+master_memory_requests: 4Gi
+master_volume_storage: 20Gi
+#Cluster PetSet
+data_name: elasticsearch-data
+data_replicas: 3
+data_cpu_limits: 500m
+data_memory_limits: 500m
+data_cpu_requests: 4Gi
+data_memory_requests: 4Gi
+data_volume_storage: 20Gi
