@@ -24,11 +24,11 @@ clusterServices:
 
 To use helm locally in you cluster to install charts: 
 
-To use the helm shipped with k2, run a command similar to:
+Run a command similar to:
 
 docker run -v ~/:/root -it --rm=true -e HELM_HOME=/root/.kraken/YOURCLUSTER/.helm -e KUBECONFIG=/root/.kraken/YOURCLUSTER/admin.kubeconfig quay.io/samsung_cnct/k2:latest helm list
 
-with locally installed kubectl:
+With locally installed kubectl:
 
 export KUBECONFIG=~/.kraken/YOURCLUSTER/admin.kubeconfig
 `helm list --home ~/.kraken/YOURCLUSTER/.helm`
