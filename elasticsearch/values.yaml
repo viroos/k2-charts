@@ -40,3 +40,6 @@ data_memory_limits: 500m
 data_cpu_requests: 4Gi
 data_memory_requests: 4Gi
 data_volume_storage: 20Gi
+# Xms & Xmx: must be the same 
+# should be ~75% of total memory allocation
+data_Xms_Xmx: 3g

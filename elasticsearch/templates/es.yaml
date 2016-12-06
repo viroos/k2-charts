@@ -167,7 +167,7 @@ spec:
         #  the min/max *must* be the same due to elasticsearch 5.0 bootstrap checks.  For a production settings
         #  this should be 16GB.  Don't go over 32GB as the JVM starts to have issues.
         - name: ES_JAVA_OPTS
-          value: "-Xms3g -Xmx3g -Djava.net.preferIPv4Stack=true"
+          value: "-Xms{{ .Values.data_Xms_Xmx }} -Xmx{{ .Values.data_Xms_Xmx }} -Djava.net.preferIPv4Stack=true"
         - name: KUBERNETES_NAMESPACE
           valueFrom:
             fieldRef:
