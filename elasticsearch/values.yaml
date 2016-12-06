@@ -13,6 +13,7 @@ port_selector: elasticsearch-data
 cluster_name: elasticsearch-cluster
 cluster_port: 9300
 cluster_port_name: cluster-comms
+
 #Master PetSet
 master_name: elasticsearch-master
 master_replicas: 3
@@ -27,9 +28,13 @@ master_volume_storage: 20Gi
 # Xms & Xmx: must be the same 
 # should be ~75% of total memory allocation
 master_Xms_Xmx: 3g
+
 #Cluster PetSet
 data_name: elasticsearch-data
 data_replicas: 3
+# resource notes:  datanodes are pretty heavy.  
+# These should be modified up for a real production setting
+# recommendation is two cores and 20GB of memory for the containers
 data_cpu_limits: 500m
 data_memory_limits: 500m
 data_cpu_requests: 4Gi

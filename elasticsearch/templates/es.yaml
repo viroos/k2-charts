@@ -148,8 +148,6 @@ spec:
           containerPort: {{.Values.cluster_port}}
         - name: {{.Values.port_name}}
           containerPort: {{.Values.port}}
-        #  resource notes:  datanodes are pretty heavy.  These should be modified up for a real production setting
-        #  recommendation is two cores and 20GB of memory for the containers
         resources:
           limits:
             cpu: {{.Values.data_cpu_limits}}
