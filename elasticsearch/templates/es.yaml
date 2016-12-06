@@ -84,7 +84,7 @@ spec:
           value: "{{.Values.cluster_name}}"
         #  the min/max *must* be the same due to elasticsearch 5.0 bootstrap checks
         - name: ES_JAVA_OPTS
-          value: "-Xms3g -Xmx3g -Djava.net.preferIPv4Stack=true"
+          value: "-Xms{{ .Values.master_Xms_Xmx }} -Xmx{{ .Values.master_Xms_Xmx }} -Djava.net.preferIPv4Stack=true"
         - name: KUBERNETES_NAMESPACE
           valueFrom:
             fieldRef:
