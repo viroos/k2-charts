@@ -37,7 +37,7 @@ metadata:
   name: {{.Values.master_name}}
 spec:
   serviceName: "{{.Values.master_name}}"
-  replicas: {{.Values.replicas}}
+  replicas: {{.Values.master_replicas}}
   template:
     metadata:
       labels:
