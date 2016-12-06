@@ -157,13 +157,13 @@ spec:
             memory: {{.Values.data_memory_requests}}
         env:
         - name: CLUSTER_NAME
-          value: "elasticsearch-cluster"
+          value: "{{ .Values.cluster_name }}"
         - name: NODE_DATA
           value: "true"
         - name: NODE_MASTER
           value: "false"
         - name: SERVICE
-          value: "elasticsearch-cluster"
+          value: "{{ .Values.cluster_name }}"
         #  the min/max *must* be the same due to elasticsearch 5.0 bootstrap checks.  For a production settings
         #  this should be 16GB.  Don't go over 32GB as the JVM starts to have issues.
         - name: ES_JAVA_OPTS
