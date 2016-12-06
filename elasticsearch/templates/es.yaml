@@ -110,7 +110,6 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          #  set to small so when exploring with this the user doesn't accidentally create very large disks
           storage: {{.Values.master_volume_storage}}
 ---
 apiVersion: apps/v1alpha1

@@ -21,8 +21,11 @@ master_cpu_limits: 500m
 master_cpu_requests: 500m
 master_memory_limits: 4Gi
 master_memory_requests: 4Gi
+# master_volume_storage: set to small so when exploring with this the 
+# user doesn't accidentally create very large disks
 master_volume_storage: 20Gi
-# Xms & Xmx: must be the same and should be ~75% of total memory allocation
+# Xms & Xmx: must be the same 
+# should be ~75% of total memory allocation
 master_Xms_Xmx: 3g
 #Cluster PetSet
 data_name: elasticsearch-data
