@@ -1,0 +1,8 @@
+# Default values for central-fluentd.
+
+name: central-fluentd-deployment
+replicas: 3
+image: quay.io/samsung_cnct/fluentd-central
+app: log_app
+containerPort: 80
+
