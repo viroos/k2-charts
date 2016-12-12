@@ -41,8 +41,8 @@ data_replicas: 3
 # These should be modified up for a real production setting
 # recommendation is two cores and 20GB of memory for the containers
 data_cpu_limits: 500m
-data_memory_limits: 500m
-data_cpu_requests: 4Gi
+data_memory_limits: 4Gi
+data_cpu_requests: 500m
 data_memory_requests: 4Gi
 data_volume_storage: 20Gi
 # Xms & Xmx: must be the same 
