@@ -1,0 +1,10 @@
+# Default values for daemon-fluentd.
+
+name: fluentd-daemon
+app: log-app
+k8s: fluentd-logging
+container_name: fluentd-kafka
+image: quay.io/samsung_cnct/fluentd_daemonset
+memory_limits: 200Mi
+cpu_requests: 100m
+memory_requests: 200Mi
