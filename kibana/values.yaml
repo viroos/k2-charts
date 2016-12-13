@@ -1,0 +1,16 @@
+# Default values for kibana.
+# Service
+name: kibana-logging
+app: kibana-logging
+port: 5601
+# Deployment
+component: kibana-logging
+replicas: 3
+container_name: kibana-logging
+image: kibana:5.0.2
+# keep request = limit to keep this container in guaranteed class
+cpu_limit: 100m
+cpu_requests: 100m
+env_name: ELASTICSEARCH_URL
+env_value: http://elasticsearch:9200
+container_port: 5601

@@ -1,0 +1,8 @@
+apiVersion: v1
+description: A Fluentd Helm chart for Kubernetes
+name: daemon-fluentd
+version: 0.1.0
+keywords: [fluentd, logging]
+maintainers:
+ - name: Leah Petersen
+   email: leahnpetersen@gmail.com
