@@ -1,0 +1,6 @@
+# You need this charts directory to build Helm Charts DO NOT DELETE.
+
+# Ignore everything in this directory
+*
+# Except this file
+!.gitignore
