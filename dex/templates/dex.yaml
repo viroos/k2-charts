@@ -1,0 +1,165 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dex
+spec:
+  type: NodePort
+  ports:
+  - name: dex
+    port: 443
+    protocol: TCP
+    targetPort: 443
+    nodePort: {{.Values.Dex.NodePort}}
+  selector:
+    app: dex
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dex.tls
+data:
+  tls.ca: {{.Values.Dex.Tls.Ca}}
+  tls.crt: {{.Values.Dex.Tls.Cert}}
+  tls.key: {{.Values.Dex.Tls.Key}}
+{{ if .Values.Dex.Connector.GitHub }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dex.github
+type: Opaque
+data:
+  client-id: {{.Values.Dex.Connector.GitHub.ClientId}}
+  client-secret: {{.Values.Dex.Connector.GitHub.ClientSecret}}
+{{ end }}
+{{ if .Values.Dex.Connector.GitHub }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dex.google
+type: Opaque
+data:
+  client-id: {{.Values.Dex.Connector.Google.ClientId}}
+  client-secret: {{.Values.Dex.Connector.Google.ClientSecret}} 
+{{ end }}
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: dex
+data:
+  config.yaml: |
+    issuer: {{.Values.Dex.Issuer}}
+
+    storage:
+      type: kubernetes
+      config:
+        inCluster: true
+
+    web:
+      https: 0.0.0.0:443
+      tlsCert: /etc/dex/tls/tls.crt
+      tlsKey: /etc/dex/tls/tls.key
+
+    connectors:
+{{ if .Values.Dex.Connector.GitHub }}
+    - type: github
+      id: github
+      name: GitHub
+      config:
+        clientID: $GITHUB_CLIENT_ID
+        clientSecret: $GITHUB_CLIENT_SECRET
+        redirectURI: {{.Values.Dex.Issuer}}/callback
+{{ end}}          
+{{ if .Values.Dex.Connector.Google }}
+    - type: oidc
+      id: google
+      name: Google
+      config:
+        issuer: https://accounts.google.com
+        clientID: $GOOGLE_CLIENT_ID
+        clientSecret: $GOOGLE_CLIENT_SECRET
+        redirectURI: {{.Values.Dex.Issuer}}/callback
+{{ end}}          
+
+    oauth2:
+      skipApprovalScreen: true
+
+    staticClients:
+    - id: example-app
+      redirectURIs:
+        - {{.Values.DexApp.RedirectUri}}
+      name: 'Example App'
+      secret: ZXhhbXBsZS1hcHAtc2VjcmV0
+
+    enablePasswordDB: true
+    staticPasswords:
+    - email: "admin@example.com"
+      hash: "$2a$10$33EMT0cVYVlPy6WAMCLsceLYjWhuHpbz5yuZxu/GAFj03J9Lytjuy"
+      username: "admin"
+      userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dex
+  labels:
+    app: dex
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dex
+    spec:
+      containers:
+      - name: dex
+        image: {{.Values.Dex.Image}}:{{.Values.Dex.ImageTag}}
+        imagePullPolicy: Always
+        command: ["/usr/local/bin/dex", "serve", "/etc/dex/cfg/config.yaml"]
+        ports:
+        - name: https
+          containerPort: 443
+
+        volumeMounts:
+        - name: config
+          mountPath: /etc/dex/cfg
+        - name: tls
+          mountPath: /etc/dex/tls
+
+        env:
+{{ if .Values.Dex.Connector.GitHub }}
+        - name: GITHUB_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: dex.github
+              key: client-id
+        - name: GITHUB_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: dex.github
+              key: client-secret
+{{ end}}                
+{{ if .Values.Dex.Connector.Google }}
+        - name: GOOGLE_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: dex.google
+              key: client-id
+        - name: GOOGLE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: dex.google
+              key: client-secret
+{{ end}}                
+      volumes:
+      - name: config
+        configMap:
+          name: dex
+          items:
+          - key: config.yaml
+            path: config.yaml
+      - name: tls
+        secret:
+          secretName: dex.tls
