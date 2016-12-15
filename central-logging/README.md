@@ -1,5 +1,5 @@
 ## Centralize Logging for Kubernetes Cluster
-This is a centralized logging solution for a production grade Kubernetes cluster. This system ensures events are safely pulled from pods, enriched with Kubernetes metadata, saved in a data store and made available for visualizing and querying.
+This is a centralized logging solution for a production grade Kubernetes cluster. This system ensures events are safely pulled from pods, enriched with Kubernetes metadata, saved in a data store and made available for visualizing and querying - without ever leaving the kubernetes cluster.
 
 ## Installation
 Install this system in your cluster with [Helm](https://github.com/kubernetes/helm) with: 
@@ -41,7 +41,7 @@ Image: https://quay.io/repository/samsung_cnct/kafka-petset
 Monitor Image: https://quay.io/repository/samsung_cnct/kubernetes-kafka-monitor
 Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/kafka
 
-**Processing Node:** Fluentd will centrally process events
+**Processing Node:** Fluentd, to be consistent with on node collector, will centrally process events
 Github Repo: https://github.com/samsung-cnct/k2-logging-central-fluentd
 Image: https://quay.io/repository/samsung_cnct/fluentd-central
 Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/central-fluentd
@@ -67,7 +67,3 @@ Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/kibana
 ## Credits
 
 Created and maintained by the Samsung Cloud Native Computing Team.
-
-## License
-
-TODO: Write license
