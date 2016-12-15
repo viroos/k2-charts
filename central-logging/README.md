@@ -41,7 +41,7 @@ Image: https://quay.io/repository/samsung_cnct/kafka-petset
 Monitor Image: https://quay.io/repository/samsung_cnct/kubernetes-kafka-monitor
 Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/kafka
 
-**Processing Node:** Fluentd, to be consistent with on node collector, will centrally process events
+**Processing Node:** FluentD, will centrally process events
 Github Repo: https://github.com/samsung-cnct/k2-logging-central-fluentd
 Image: https://quay.io/repository/samsung_cnct/fluentd-central
 Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/central-fluentd
