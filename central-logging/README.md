@@ -35,26 +35,26 @@ Image: https://quay.io/repository/samsung_cnct/fluentd_daemonset
 Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/daemon-fluentd
 
 **Log Transport Bus:** Kafka 
-Github Repo: https://github.com/samsung-cnct/kafka-kubernetes
-Monitor Github Repo: https://github.com/samsung-cnct/kafka-monitor-kubernetes
-Image: https://quay.io/repository/samsung_cnct/kafka-petset
-Monitor Image: https://quay.io/repository/samsung_cnct/kubernetes-kafka-monitor
-Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/kafka
+* Github Repo: https://github.com/samsung-cnct/kafka-kubernetes
+* Monitor Github Repo: https://github.com/samsung-cnct/kafka-monitor-kubernetes
+* Image: https://quay.io/repository/samsung_cnct/kafka-petset
+* Monitor Image: https://quay.io/repository/samsung_cnct/kubernetes-kafka-monitor
+* Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/kafka
 
 **Processing Node:** FluentD, will centrally process events
-Github Repo: https://github.com/samsung-cnct/k2-logging-central-fluentd
-Image: https://quay.io/repository/samsung_cnct/fluentd-central
-Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/central-fluentd
+* Github Repo: https://github.com/samsung-cnct/k2-logging-central-fluentd
+* Image: https://quay.io/repository/samsung_cnct/fluentd-central
+* Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/central-fluentd
 
 **Queryable Datastore:** ElasticSearch
-Github Repo: https://github.com/samsung-cnct/k2-charts/tree/master/elasticsearch
-Image: https://quay.io/repository/samsung_cnct/elasticsearch
-Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/elasticsearch
+* Github Repo: https://github.com/samsung-cnct/k2-charts/tree/master/elasticsearch
+* Image: https://quay.io/repository/samsung_cnct/elasticsearch
+* Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/elasticsearch
 
 **Data Visualization:** Kibana
-Github Repo: https://github.com/samsung-cnct/kibana-k2-dependencies
-Image: https://quay.io/repository/samsung_cnct/kibana
-Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/kibana
+* Github Repo: https://github.com/samsung-cnct/kibana-k2-dependencies
+* Image: https://hub.docker.com/_/kibana/ version: 5.0.2
+* Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/kibana
 
 ## Contributing
 
