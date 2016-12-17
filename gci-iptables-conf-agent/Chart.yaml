@@ -1,0 +1,11 @@
+apiVersion: v1
+name: gci-iptables-conf-agent
+version: 0.1.0
+description: A GKE/GCI host node iptables management agent Helm chart.
+keywords: [gci, iptables, networking, vpn]
+home: https://github.com/samsung-cnct/gci-iptables-conf-agent
+sources:
+  - https://github.com/samsung-cnct/gci-iptables-conf-agent
+maintainers:
+ - name: Samsung CNCT
+   email: richard.sostheim@gmail.com

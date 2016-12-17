@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: iptables-agent 
+  labels:
+    name: iptables-agent 
+    release: {{.Release.Name | quote }}
+    heritage: {{.Release.Service | quote }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    component: "{{.Release.Name}}-iptables-agent"
+    app: {{.Values.app}}
+    version: {{.Chart.Version}}
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{.Values.app}}
+        version: {{.Chart.Version}}
+    spec:
+      hostNetwork: true
+      containers:
+      - name: {{.Values.name}}
+        image: {{.Values.image}}
+        securityContext:
+          privileged: true
+      terminationGracePeriodSeconds: 65
