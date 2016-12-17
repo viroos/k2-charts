@@ -1,0 +1,5 @@
+# Default values for gci-iptables-conf-agent.
+name: gci-iptables-conf-agent
+app: iptables-agent
+image: quay.io/samsung_cnct/gci-iptables-conf-agent
+
