@@ -2,7 +2,7 @@ apiVersion: v1
 description: A CoreOS Dex chart for Kubernetes
 name: dex
 version: 0.1.0
-keywords: [dex]
+keywords: [coreos, dex, auth, oidc]
 home: https://github.com/coreos/dex.git
 maintainers:
   - name: Chanhun Jeong
