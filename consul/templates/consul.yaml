@@ -1,0 +1,112 @@
+{{- if .Values.Consul.Ingress }}
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{.Release.Name}}
+  labels:
+    ssl: "true"
+    httpsBackend: "true"
+    httpsOnly: "true"
+spec:
+  rules:
+  - host: {{ .Values.Consul.Ingress.Host }}
+    http:
+      paths:
+      - backend:
+          serviceName: {{.Release.Name}}
+          servicePort: 8543
+        path: {{ .Values.Consul.Ingress.Path }}
+{{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Release.Name}}
+  labels:
+    name: {{.Release.Name}}
+spec:
+  ports:
+    # the port that this service should serve on
+    - name: http
+      port: 8500
+    - name: https
+      port: 8543
+    - name: rpc
+      port: 8400
+    - name: serflan
+      port: 8301
+    - name: serfwan
+      port: 8302
+    - name: server
+      port: 8300
+    - name: consuldns
+      port: 53
+  # label keys and values that must match in order to receive traffic for this service
+  selector:
+    app: {{.Release.Name}}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}
+  labels:
+    app: {{.Release.Name}}
+spec:
+  replicas: {{.Values.Consul.Replicas}}
+  template:
+    metadata:
+      labels:
+        app: {{.Release.Name}}
+    spec:
+      containers:
+      - name: {{.Release.Name}}
+        image: {{.Values.Consul.Image}}:{{.Values.Consul.ImageTag}}
+        imagePullPolicy: {{.Values.Consul.ImagePullPolicy}}
+        env:
+        - name: "KUBERNETES_DEPLOY_NAME"
+          value: {{.Release.Name}}
+        - name: "ENVIRONMENT"
+          value: {{.Values.Consul.Environment}}   # some name
+        - name: "MASTER_TOKEN"
+          value: {{.Values.Consul.MasterToken}}   # UUID preferable
+        - name: "GOSSIP_KEY"
+          value: {{.Values.Consul.GossipKey}}     # some random key for encryption
+        - name: "CONSUL_DEBUG"
+          value: "false"                          # to debug or not to debug
+        - name: "CONSUL_SERVER_COUNT"
+          value: "{{.Values.Consul.Replicas}}"    # same value to replicas
+{{- if .Values.Consul.Tls }}
+        - name: "CONSUL_SSL_ENABLE"
+          value: true
+        - name: "CONSUL_SSL_KEY"
+          value: {{.Values.Consul.Tls.Key}}
+        - name: "CONSUL_SSL_CRT"
+          value: {{.Values.Consul.Tls.Cert}}
+{{- end }}
+        resources:
+          limits:
+            cpu: {{ .Values.Consul.Cpu }}
+            memory: {{ .Values.Consul.Memory }}
+          requests:
+            cpu: {{ .Values.Consul.Cpu }}
+            memory: {{ .Values.Consul.Memory }}
+        ports:
+        - containerPort: 8500
+          name: ui-port
+        - containerPort: 8400
+          name: alt-port
+        - containerPort: 53
+          name: udp-port
+        - containerPort: 8543
+          name: https-port
+        - containerPort: 8500
+          name: http-port
+        - containerPort: 8301
+          name: serflan
+        - containerPort: 8302
+          name: serfwan
+        - containerPort: 8600
+          name: consuldns
+        - containerPort: 8300
+          name: server

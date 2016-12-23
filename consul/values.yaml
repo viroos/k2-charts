@@ -1,0 +1,13 @@
+Consul:
+  Image: "quay.io/keyolk/consul"
+  ImageTag: "0.6.3"
+  ImagePullPolicy: "Always"
+  Component: "consul"
+
+  Replicas: 3
+  Environment: "local"
+  MasterToken: "token"
+  GossipKey: "cg8StVXbQJ0gPvMd9o7yrg=="
+
+  Cpu: "512m"
+  Memory: "200Mi"
