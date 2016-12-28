@@ -1,7 +1,7 @@
 ## A Helm Chart for CoreOS Dex
 
 ## Installation
-Install this in your cluster with [Helm](https://github.com/kubernetes/helm) with:
+Install this in your cluster with [Helm](https://github.com/kubernetes/helm):
 
 ```
 helm repo add cnct http://atlas.cnct.io
