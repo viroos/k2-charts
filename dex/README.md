@@ -41,7 +41,8 @@ clusterServices:
 Get [K2](https://github.com/samsung-cnct/k2) to help you deploy a Kubernetes cluster.
 
 ## Assets
-Assets for each component in the chart.
+
+Kubernetes Assets in this chart.
 
 **Dex**
 oidc provider. 
@@ -50,6 +51,8 @@ can support various connector backend like
   - OIDC (including Google)
   - GitHub OAuth
   - Facebook OAuth
+
+see details in [official site](https://github.com/coreos/dex)
 
 default values below
 
