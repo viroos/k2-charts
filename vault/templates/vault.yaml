@@ -1,0 +1,121 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Release.Name}}
+spec:
+{{- if .Values.Vault.NodePort }}
+  type: NodePort
+{{- end}}        
+  ports:
+    - name: {{.Release.Name}}
+      protocol: TCP
+{{- if .Values.Vault.Tls }}
+      port: 443
+      targetPort: 443
+{{- else }}
+      port: 80
+      targetPort: 80
+{{- end}}        
+{{- if .Values.Vault.NodePort }}
+      nodePort: {{ .Values.Vault.NodePort }}
+{{- end}}
+  selector:
+    app: {{.Release.Name}}
+{{- if .Values.Vault.Tls }}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{.Release.Name}}.tls
+data:
+  vault.crt: {{.Values.Vault.Tls.Cert}}
+  vault.key: {{.Values.Vault.Tls.Key}}
+{{- end}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{.Release.Name}}
+data: 
+  config.json : |
+{{- if eq .Values.Vault.Backend.Type "inmem"}}    
+    backend "inmem" {
+
+    }
+{{- end}}
+{{- if eq .Values.Vault.Backend.Type "consul"}}    
+    backend "consul" {
+      address = "{{.Values.Vault.Backend.Address}}"
+      scheme = "{{.Values.Vault.Backend.Scheme}}"
+      token = "{{.Values.Vault.Backend.Token}}"
+    }
+{{- end}}
+    
+    listener "tcp" {
+{{- if .Values.Vault.Tls }}
+      address = "0.0.0.0:443"
+      tls_key_file = "/etc/vault/tls/vault.key"
+      tls_cert_file = "/etc/vault/tls/vault.crt"
+{{- else}}      
+      address = "0.0.0.0:80"
+      tls_skip_verify = true
+{{- end}}      
+    }
+
+    disable_mlock = true
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{.Release.Name}}
+  labels:
+    app: {{.Release.Name}}
+spec:
+  replicas: {{ .Values.Vault.Replicas }}
+  template:
+    metadata:
+      labels:
+        app: {{.Release.Name}}
+    spec:
+      containers:
+      - name: {{.Release.Name}}
+        image: "{{.Values.Vault.Image}}:{{.Values.Vault.ImageTag}}"
+        imagePullPolicy: {{.Values.Vault.ImagePullPolicy}}
+        ports:
+{{- if .Values.Vault.Tls }}
+          - name: https
+            containerPort: 443
+{{- else}}
+          - name: http
+            containerPort: 80
+{{- end }}
+{{- if .Values.Vault.Tls }}
+        volumeMounts:
+        - name: config
+          mountPath: /etc/vault/cfg
+        - name: tls
+          mountPath: /etc/vault/tls
+{{- end }}
+        env:
+        - name: "VAULT_DEBUG"
+          value: "true"
+        resources:
+          limits:
+            cpu: {{ .Values.Vault.Cpu }}
+            memory: {{ .Values.Vault.Memory }}
+          requests:
+            cpu: {{ .Values.Vault.Cpu }}
+            memory: {{ .Values.Vault.Memory }}
+      volumes:
+      - name: config
+        configMap:
+          name: {{.Release.Name}}
+          items:
+          - key: config.json
+            path: config.json
+{{- if .Values.Vault.Tls }}
+      - name: tls
+        secret:
+          secretName: {{.Release.Name}}.tls
+{{- end }}
