@@ -46,6 +46,8 @@ Kubernetes Asset in the chart.
 **Vault**
 A tool for managing secrets.
 See detail in [official site](https://www.vaultproject.io)
+
+default values below
 ```
 Vault:
   Image: "quay.io/samsung_cnct/vault"
@@ -69,6 +71,16 @@ Vault:
     Cert: <TLS Cert, base64 encoded PEM> 
     Key: <TLS Key, base64 encoded PEM>
 ```
+
+for backend,
+it support
+  - consul 
+  - inmem
+
+in case of inmem, below vaules is not used 
+ - address
+ - scheme
+ - token
 
 ## Test
 ```
