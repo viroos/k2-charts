@@ -44,16 +44,16 @@ data:
   client-id: {{.Values.Dex.Connector.GitHub.ClientId}}
   client-secret: {{.Values.Dex.Connector.GitHub.ClientSecret}}
 {{- end }}
-{{- if .Values.Dex.Connector.GitHub }}
+{{- if .Values.Dex.Connector.Oidc }}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  name: {{.Release.Name}}.google
+  name: {{.Release.Name}}.oidc
 type: Opaque
 data:
-  client-id: {{.Values.Dex.Connector.Google.ClientId}}
-  client-secret: {{.Values.Dex.Connector.Google.ClientSecret}} 
+  client-id: {{.Values.Dex.Connector.Oidc.ClientId}}
+  client-secret: {{.Values.Dex.Connector.Oidc.ClientSecret}} 
 {{- end }}
 ---
 kind: ConfigMap
@@ -87,25 +87,26 @@ data:
 {{- if .Values.Dex.Connector.GitHub }}
     - type: github
       id: github
-      name: GitHub
+      name: {{.Values.Dex.Connector.GitHub.Name}}
       config:
         clientID: $GITHUB_CLIENT_ID
         clientSecret: $GITHUB_CLIENT_SECRET
         redirectURI: {{.Values.Dex.Issuer}}/callback
 {{- end}}          
-{{- if .Values.Dex.Connector.Google }}
+{{- if .Values.Dex.Connector.Oidc }}
     - type: oidc
-      id: google
-      name: Google
+      id: {{.Values.Dex.Connector.Oidc.Id}}
+      name: {{.Values.Dex.Connector.Oidc.Name}}
       config:
-        issuer: https://accounts.google.com
-        clientID: $GOOGLE_CLIENT_ID
-        clientSecret: $GOOGLE_CLIENT_SECRET
+        issuer: {{.Values.Dex.Connector.Oidc.Issuer}}
+        clientID: $OIDC_CLIENT_ID
+        clientSecret: $OIDC_CLIENT_SECRET
         redirectURI: {{.Values.Dex.Issuer}}/callback
 {{- end}}          
 {{- if .Values.Dex.Connector.Ldap }}
     - type: ldap
       id: ldap
+      name: {{.Values.Dex.Connector.Ldap.Name}}
       config:
         host: {{.Values.Dex.Connector.Ldap.Host}}
         insecureNoSSL: {{.Values.Dex.Connector.Ldap.InsecureNoSsl}}
@@ -138,10 +139,10 @@ data:
       secret: ZXhhbXBsZS1hcHAtc2VjcmV0
 
     enablePasswordDB: true
-    staticPasswords:
-    - email: "admin@example.com"
-      hash: "$2a$10$33EMT0cVYVlPy6WAMCLsceLYjWhuHpbz5yuZxu/GAFj03J9Lytjuy"
-      username: "admin"
+    staticPassword:  
+    - email: {{.Values.Dex.StaticPassword.Email}}
+      hash: {{.Values.Dex.StaticPassword.Password}}
+      username: {{.Values.Dex.StaticPassword.Username}}
       userID: "08a8684b-db88-4b73-90a9-3cd1661f5466"
 ---
 apiVersion: extensions/v1beta1
@@ -187,16 +188,16 @@ spec:
               name: {{.Release.Name}}.github
               key: client-secret
 {{- end}}                
-{{- if .Values.Dex.Connector.Google }}
-        - name: GOOGLE_CLIENT_ID
+{{- if .Values.Dex.Connector.Oidc }}
+        - name: OIDC_CLIENT_ID
           valueFrom:
             secretKeyRef:
-              name: {{.Release.Name}}.google
+              name: {{.Release.Name}}.oidc
               key: client-id
-        - name: GOOGLE_CLIENT_SECRET
+        - name: OIDC_CLIENT_SECRET
           valueFrom:
             secretKeyRef:
-              name: {{.Release.Name}}.google
+              name: {{.Release.Name}}.oidc
               key: client-secret
 {{- end}}                
         resources:
