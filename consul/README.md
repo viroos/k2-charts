@@ -23,7 +23,7 @@ clusterServices:
     -
       name: consul
       repo: atlas
-      chart: dex
+      chart: consul
       version: 0.1.0
       namespace: kube-system
       values:
@@ -59,8 +59,6 @@ Consul:
   Cpu: "512m"
   Memory: "200Mi"
 ```
-
-## Test
 
 ## Contributing
 
