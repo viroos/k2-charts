@@ -1,5 +1,5 @@
 Vault:
-  Image: "quay.io/keyolk/vault"
+  Image: "quay.io/samsung_cnct/vault"
   ImageTag: "0.5.2"
   ImagePullPolicy: "Always"
   Component: "vault"
