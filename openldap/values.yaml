@@ -1,0 +1,28 @@
+OpenLdap:
+  Image: "docker.io/osixia/openldap"
+  ImageTag: "1.1.7"
+  ImagePullPolicy: "Always"
+  Component: "openldap"
+
+  Replicas: 1
+
+  Cpu: "512m"
+  Memory: "200Mi"
+
+  Domain: "local.io"
+  AdminPassword: "admin"
+  Https: "false"
+
+PhpLdapAdmin:
+  Image: "docker.io/osixia/phpldapadmin"
+  ImageTag: "0.6.12"
+  ImagePullPolicy: "Always"
+  Component: "phpadmin"
+
+  Replicas: 1
+
+  NodePort: 31080
+  #LdapEndpoint: kube-1.local.io:30389
+
+  Cpu: "512m"
+  Memory: "200Mi"
