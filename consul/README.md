@@ -46,7 +46,7 @@ default values below
 
 ```
 Consul:
-  Image: "quay.io/keyolk/consul"
+  Image: "quay.io/samsung_cnct/consul"
   ImageTag: "0.6.3"
   ImagePullPolicy: "Always"
   Component: "consul"
