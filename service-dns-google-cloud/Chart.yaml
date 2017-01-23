@@ -1,0 +1,14 @@
+name: service-dns-google-cloud
+version: 0.0.1
+description: Chart for Google CloudDNS record for k8s service
+keywords:
+- dns
+- gooogle
+- cloud dns
+home: https://github.com/samsung-cnct/zonar-charts/service-dns-google-cloud
+sources:
+- https://github.com/samsung-cnct/zonar-charts/service-dns-google-cloud
+maintainers:
+- name: Samsung CNCT
+  email: maratoid@gmail.com
+engine: gotpl

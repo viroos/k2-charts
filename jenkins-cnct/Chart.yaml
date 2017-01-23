@@ -1,0 +1,13 @@
+name: jenkins-cnct
+version: 0.0.1
+description: CNCT-specific jenkins setup on k8s
+keywords:
+- jenkins
+- cnct
+home: https://github.com/samsung-cnct/zonar-charts
+sources:
+- https://github.com/samsung-cnct/zonar-charts
+maintainers:
+- name: Samsung CNCT
+  email: maratoid@gmail.com
+engine: gotpl

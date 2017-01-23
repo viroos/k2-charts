@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jenkins-ingress
+  annotations:
+    {{ if .Values.tls }}
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.allow-http: "false"
+    {{ end }}
+    kubernetes.io/ingress.class: "{{ .Values.controller }}"
+spec:
+  {{ if .Values.tls }}
+  tls:
+    - hosts:
+      - {{ .Values.domain }}
+      secretName: jenkins-tls
+  {{ end }}
+  rules:
+  - host: {{ .Values.domain }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jenkins
+          servicePort: {{ .Values.port }}

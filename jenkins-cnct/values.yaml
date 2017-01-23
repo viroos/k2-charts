@@ -1,0 +1,44 @@
+kube-lego:
+  api: "https://acme-staging.api.letsencrypt.org/directory"
+jenkins-base:
+  adminEmail: "zonarbot@cnct.io"
+  adminPassword: "override me"
+  adminUser: "admin"
+  javaOptions: "-Xms1024m -Xmx1024m -Djenkins.install.runSetupWizard=false"
+  jenkinsUrl: "jenkins.zonar.cnct.io"
+  jobsRepo: "https://github.com/samsung-cnct/kraken-ci-jobs"
+  kubernetes_cluster: "zonar-production-cluster"
+  security: "github"
+  slack:
+    slackDomain: "samsung-cnct"
+    slackRoom: "#ping-jenkins"
+    slackApiToken: "override me"
+  github:
+    githubClientId: "override me"
+    githubAccessToken: "override me"
+    githubUserName: "override me"
+    githubClientKey: "override me"
+    admin_usernames: "zonarbot jfelten l337ch maratoid cwazy1 sostheim kmansel"
+  gke:
+    gkeProject: "cnct-zonar-1316"
+    svcAccountId: "override me"
+    svcAccountKey: "override me"
+  ssh:
+    sshPrivateKey: "change me"
+    sshPublicKey: "change me"
+  service: "NodePort"
+  persistence:
+    enabled: false
+  helm:
+    svcAccountId: "override me"
+    svcAccountKey: "override me"
+jenkins-ingress:
+  tls: true
+  controller: "gce"
+  domain: "jenkins.zonar.cnct.io"
+  port: 8080
+service-dns-google-cloud:
+  ingressName: "jenkins-ingress"
+  ttl: 5
+  dns_zone: "zonar-cnct-io"
+  domain: "jenkins.zonar.cnct.io"
