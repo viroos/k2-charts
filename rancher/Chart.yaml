@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart for running rancher in a Kubernetes cluster
+name: rancher
+version: 0.1.0
