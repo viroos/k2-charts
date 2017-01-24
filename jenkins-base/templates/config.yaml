@@ -84,7 +84,7 @@ data:
           <name>{{ .Values.kubernetes_cluster }}</name>
           <templates>
             <org.csanchez.jenkins.plugins.kubernetes.PodTemplate>
-              <name>zonar-jnlp</name>
+              <name>k2-jnlp</name>
               <instanceCap>2147483647</instanceCap>
               <label></label>
               <nodeSelector></nodeSelector>

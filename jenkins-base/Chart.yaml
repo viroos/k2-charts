@@ -1,5 +1,5 @@
 name: jenkins-base
-home: https://github.com/samsung-cnct/zonar-charts
+home: https://github.com/samsung-cnct/k2-charts
 version: 0.0.1
 description: A helm chart for running kubernetes-based jenkins ci with slaves
 sources:

@@ -5,7 +5,7 @@ keywords:
 - ingress
 - jenkins
 - nginx
-home: https://github.com/samsung-cnct/zonar-charts/jenkins-ingress
+home: https://github.com/samsung-cnct/k2-charts/jenkins-ingress
 sources:
 - https://github.com/jetstack/kube-lego
 maintainers:

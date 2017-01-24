@@ -5,9 +5,9 @@ keywords:
 - dns
 - gooogle
 - cloud dns
-home: https://github.com/samsung-cnct/zonar-charts/service-dns-google-cloud
+home: https://github.com/samsung-cnct/k2-charts/service-dns-google-cloud
 sources:
-- https://github.com/samsung-cnct/zonar-charts/service-dns-google-cloud
+- https://github.com/samsung-cnct/k2-charts/service-dns-google-cloud
 maintainers:
 - name: Samsung CNCT
   email: maratoid@gmail.com

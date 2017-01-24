@@ -1,13 +1,13 @@
 kube-lego:
   api: "https://acme-staging.api.letsencrypt.org/directory"
 jenkins-base:
-  adminEmail: "zonarbot@cnct.io"
+  adminEmail: "maratoid+samsungjenkins@gmail.com"
   adminPassword: "override me"
   adminUser: "admin"
   javaOptions: "-Xms1024m -Xmx1024m -Djenkins.install.runSetupWizard=false"
-  jenkinsUrl: "jenkins.zonar.cnct.io"
+  jenkinsUrl: "jenkins.cnct.io"
   jobsRepo: "https://github.com/samsung-cnct/kraken-ci-jobs"
-  kubernetes_cluster: "zonar-production-cluster"
+  kubernetes_cluster: "change me"
   security: "github"
   slack:
     slackDomain: "samsung-cnct"
@@ -18,9 +18,9 @@ jenkins-base:
     githubAccessToken: "override me"
     githubUserName: "override me"
     githubClientKey: "override me"
-    admin_usernames: "zonarbot jfelten l337ch maratoid cwazy1 sostheim kmansel"
+    admin_usernames: "countspongebob l337ch maratoid mikeln richardkaufmann Rick-Lindberg SamsungAGJenkinsBot spiffxp davidewatson cwazy1 coffeepac venezia alejandroEsc sostheim DStorck leahnp kmansel"
   gke:
-    gkeProject: "cnct-zonar-1316"
+    gkeProject: "change me"
     svcAccountId: "override me"
     svcAccountKey: "override me"
   ssh:
@@ -35,10 +35,10 @@ jenkins-base:
 jenkins-ingress:
   tls: true
   controller: "gce"
-  domain: "jenkins.zonar.cnct.io"
+  domain: "jenkins.cnct.io"
   port: 8080
 service-dns-google-cloud:
   ingressName: "jenkins-ingress"
   ttl: 5
-  dns_zone: "zonar-cnct-io"
-  domain: "jenkins.zonar.cnct.io"
+  dns_zone: "change me"
+  domain: "jenkins.cnct.io"
