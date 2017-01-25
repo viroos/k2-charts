@@ -1,6 +1,6 @@
 description: ZooKeeper StatefulSet chart
 name: zookeeper
-version: 0.1.0
+version: 0.2.0
 keywords: [zookeeper, java]
 home: https://zookeeper.apache.org/
 maintainers:

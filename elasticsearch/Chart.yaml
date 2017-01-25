@@ -1,10 +1,9 @@
 apiVersion: v1
 description: ElasticSearch Cluster Chart for Kubernetes
 name: elasticsearch
-version: 0.1.0
+version: 0.2.0
 keywords: [elasticsearch, data]
 home: https://www.elastic.co/
 maintainers:
  - name: Leah Petersen
    email: leahnpetersen@gmail.com
-
