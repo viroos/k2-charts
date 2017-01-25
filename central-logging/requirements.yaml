@@ -3,13 +3,13 @@ dependencies:
     version: 0.1.0
     repository: http://atlas.cnct.io
   - name: kafka
-    version: 0.1.0
+    version: 0.2.0
     repository: http://atlas.cnct.io
   - name: central-fluentd
     version: 0.1.0
     repository: http://atlas.cnct.io
   - name: elasticsearch
-    version: 0.1.0
+    version: 0.2.0
     repository: http://atlas.cnct.io
   - name: kibana
     version: 0.1.0
