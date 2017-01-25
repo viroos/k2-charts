@@ -17,8 +17,8 @@ spec:
   selector:
     app: {{.Values.name}}
 ---
-apiVersion: apps/v1alpha1
-kind: PetSet
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: {{.Values.name}}
 spec:
@@ -29,7 +29,6 @@ spec:
       labels:
         app: {{.Values.name}}
       annotations:
-        pod.alpha.kubernetes.io/initialized: "true"
         pod.alpha.kubernetes.io/init-containers: '[
             {
                 "name": "install",

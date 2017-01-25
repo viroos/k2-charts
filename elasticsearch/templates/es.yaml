@@ -31,8 +31,8 @@ spec:
   selector:
     app: {{.Values.name}}
 ---
-apiVersion: apps/v1alpha1
-kind: PetSet
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: {{.Values.master_name}}
 spec:
@@ -44,7 +44,6 @@ spec:
         app: {{.Values.name}}
         name: {{.Values.master_name}}
       annotations:
-        pod.alpha.kubernetes.io/initialized: "true"
         pod.alpha.kubernetes.io/init-containers: '[
             {
                 "name": "max-map-count-set",
@@ -99,7 +98,7 @@ spec:
           mountPath: /usr/share/elasticsearch/data
       volumes:
       - name: hostproc
-        hostPath: 
+        hostPath:
           path: /proc
   volumeClaimTemplates:
   - metadata:
@@ -112,8 +111,8 @@ spec:
         requests:
           storage: {{.Values.master_volume_storage}}
 ---
-apiVersion: apps/v1alpha1
-kind: PetSet
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: {{.Values.data_name}}
 spec:
@@ -125,7 +124,6 @@ spec:
         app: {{.Values.name}}
         name: {{.Values.data_name}}
       annotations:
-        pod.alpha.kubernetes.io/initialized: "true"
         pod.alpha.kubernetes.io/init-containers: '[
             {
                 "name": "max-map-count-set",
@@ -182,7 +180,7 @@ spec:
           mountPath: /usr/share/elasticsearch/data
       volumes:
       - name: hostproc
-        hostPath: 
+        hostPath:
           path: /proc
   volumeClaimTemplates:
   - metadata:
