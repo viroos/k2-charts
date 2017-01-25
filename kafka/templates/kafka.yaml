@@ -1,4 +1,4 @@
-# A headless service to create DNS records for kafka PetSet
+# A headless service to create DNS records for kafka StatefulSet
 apiVersion: v1
 kind: Service
 metadata:
@@ -15,9 +15,9 @@ spec:
   selector:
     app: {{.Values.name}}
 ---
-# kafka PetSet
-apiVersion: apps/v1alpha1
-kind: PetSet
+# kafka StatefulSet
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: {{.Values.name}}
 spec:
@@ -27,8 +27,6 @@ spec:
     metadata:
       labels:
         app: {{.Values.name}}
-      annotations:
-        pod.alpha.kubernetes.io/initialized: "true"
     spec:
       containers:
       - name: {{.Values.name}}
@@ -119,4 +117,3 @@ spec:
     name: metrics
   selector:
     app: {{.Values.name}}-monitor
-  

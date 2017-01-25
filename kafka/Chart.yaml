@@ -1,4 +1,4 @@
-description: Deploy Kafka as a petset
+description: Deploy Kafka as a StatefulSet
 name: kafka
 version: 0.1.0
 keywords: [kafka, java]

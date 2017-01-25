@@ -1,4 +1,4 @@
-description: ZooKeeper petset chart
+description: ZooKeeper StatefulSet chart
 name: zookeeper
 version: 0.1.0
 keywords: [zookeeper, java]
