@@ -1,6 +1,6 @@
 ---
-apiVersion: apps/v1alpha1
-kind: PetSet
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   labels:
     app: prometheus
@@ -16,8 +16,6 @@ spec:
         app: prometheus
         cagby.io/color: {{.Values.color}}
         name: prometheus
-      annotations:
-        pod.alpha.kubernetes.io/initialized: "true"
     spec:
       containers:
       - name: prometheus

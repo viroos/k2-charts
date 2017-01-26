@@ -1,5 +1,5 @@
 ---
 name: prometheus
 description: Prometheus Helm chart for Kubernetes
-version: 0.2.0
+version: 0.3.0
 home: https://github.com/samsung-cnct/k2-charts
