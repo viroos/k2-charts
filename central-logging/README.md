@@ -21,7 +21,7 @@ Or add the following to your [K2](https://github.com/samsung-cnct/k2) configurat
         name: central-logging
         repo: atlas
         chart: central-logging
-        version: 0.1.0 
+        version: 0.2.0 
 ```
 
 Get [K2](https://github.com/samsung-cnct/k2) to help you deploy a Kubernetes cluster.
