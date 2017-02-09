@@ -13,8 +13,8 @@ spec:
         kubernetes.io/cluster-service: "true"
     spec:
       containers:
-      - name: {{.Values.container_name}}
-        image: {{.Values.image}}
+      - name: {{.Values.fluentd_container_name}}
+        image: {{.Values.fluentd_image}}
         resources:
           limits:
             memory: {{.Values.memory_limits}}
@@ -27,6 +27,14 @@ spec:
         - name: varlibdockercontainers
           mountPath: /var/lib/docker/containers
           readOnly: true
+      - name: {{.Values.sidecar_container_name}}
+        image: {{.Values.logrotate_image}}
+        env:
+          - name: ALLAPPLICATIONLOGS
+            value: '/var/log/containers'
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log/
       terminationGracePeriodSeconds: 30
       volumes:
       - name: varlog
