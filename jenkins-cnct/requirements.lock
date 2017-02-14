@@ -1,0 +1,18 @@
+dependencies:
+- name: nginx-ingress-controller
+  repository: http://atlas.cnct.io
+  version: 0.0.1
+- name: kube-lego
+  repository: http://atlas.cnct.io
+  version: 0.0.1
+- name: jenkins-base
+  repository: http://atlas.cnct.io
+  version: 0.0.1
+- name: jenkins-ingress
+  repository: http://atlas.cnct.io
+  version: 0.0.1
+- name: service-dns-google-cloud
+  repository: http://atlas.cnct.io
+  version: 0.0.1
+digest: sha256:a1e4ad06385c99fc234efb981d81a50731fd4d2df82bb07911b6b559ba2473c5
+generated: 2017-02-14T10:13:51.057622015-08:00
