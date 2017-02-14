@@ -1,0 +1,68 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "gcloud-dns"
+  labels:
+    heritage: {{.Release.Service | quote }}
+    release: {{.Release.Name | quote }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    component: "dns"
+spec:
+  completions: 1
+  parallelism: 1
+  template:
+    metadata:
+      name: "gcloud-dns"
+      labels:
+        heritage: {{.Release.Service | quote }}
+        release: {{.Release.Name | quote }}
+        chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+        component: "dns"
+    spec:
+     restartPolicy: "Never"
+     containers:
+      - name: "gcloud-dns"
+        image: {{ .Values.image | quote }}
+        command: 
+          - "/bin/bash"
+          - "-cx"
+          - |
+            
+            SERVICE_NAME='{{ .Values.serviceName }}'
+            
+            # Wait for the service to have a public IP
+            NEW_EXTERNAL_IP=$({{ .Values.command }})
+            while [ -z $NEW_EXTERNAL_IP ]; do
+                sleep 10
+                NEW_EXTERNAL_IP=$({{ .Values.command }})
+            done
+            
+            # login
+            gcloud auth activate-service-account {{ .Values.serviceAccount }} --key-file=/etc/service-account-keys/service-account.json
+            gcloud config set project {{ .Values.project }}
+            
+            # Register the public IP with DNS
+
+            TYPE=A
+            TTL={{ .Values.ttl }}
+            ZONE={{ .Values.dns_zone }}
+            NAME={{ .Values.domain }}
+            CURRENT_IP=`gcloud dns record-sets list -z ${ZONE} --name="${NAME}." | awk END'{ print $4 }'`
+            
+            gcloud dns record-sets transaction start --zone=${ZONE} --transaction-file=./transaction.yaml
+            if [ -z "${CURRENT_IP}" ]; then
+              echo "no dns record current set for ${NAME}"
+            else
+              gcloud dns record-sets transaction remove -z ${ZONE} --name ${NAME} --ttl ${TTL} --type ${TYPE} "${CURRENT_IP}"
+            fi
+            gcloud dns record-sets transaction add -z ${ZONE} --name ${NAME} --ttl ${TTL} --type ${TYPE} "${NEW_EXTERNAL_IP}"
+            gcloud dns record-sets transaction execute --zone=${ZONE} --transaction-file=./transaction.yaml  
+        volumeMounts:
+            -
+              mountPath: "/etc/service-account-keys"
+              name: "service-account-keys"
+              readOnly: true
+     volumes: 
+      - name: "service-account-keys"
+        secret: 
+          secretName: "dns-keys-{{.Release.Name}}"

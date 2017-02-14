@@ -1,0 +1,14 @@
+name: nginx-ingress-controller
+version: 0.0.1
+description: Chart for an nginx ingress controller
+keywords:
+- nginx
+- reverse proxy
+- ingress controller
+home: https://github.com/samsung-cnct/k2-charts
+sources:
+- https://github.com/jetstack/kube-lego
+maintainers:
+- name: Samsung CNCT
+  email: maratoid@gmail.com
+engine: gotpl

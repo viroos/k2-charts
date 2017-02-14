@@ -14,3 +14,11 @@ We truncate at 24 chars because some Kubernetes name fields are limited to this 
 {{- $name := default .Chart.Name .Values.nameOverride -}}
 {{- printf "%s-%s" .Release.Name $name | trunc 24 -}}
 {{- end -}}
+{{- define "server" -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- printf "%s-%s" .Release.Name "server" | trunc 24 -}}
+{{- end -}}
+{{- define "agent" -}}
+{{- $name := default .Chart.Name .Values.nameOverride -}}
+{{- printf "%s-%s" .Release.Name "agent" | trunc 24 -}}
+{{- end -}}

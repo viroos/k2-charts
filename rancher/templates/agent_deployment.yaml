@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "agent" . }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  replicas: {{ .Values.server.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "agent" . }}
+    spec:
+      containers:
+      - name: agent
+        command: ["/usr/bin/s6-svscan", "/service"]
+        image: "{{ .Values.agent.image.repository }}:{{ .Values.agent.image.tag }}"
+        imagePullPolicy: {{ .Values.agent.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.internalPort }}
+
+        resources:
+{{ toYaml .Values.resources | indent 12 }}

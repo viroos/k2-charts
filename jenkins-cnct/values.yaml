@@ -1,0 +1,44 @@
+kube-lego:
+  api: "https://acme-staging.api.letsencrypt.org/directory"
+jenkins-base:
+  adminEmail: "maratoid+samsungjenkins@gmail.com"
+  adminPassword: "override me"
+  adminUser: "admin"
+  javaOptions: "-Xms1024m -Xmx1024m -Djenkins.install.runSetupWizard=false"
+  jenkinsUrl: "jenkins.cnct.io"
+  jobsRepo: "https://github.com/samsung-cnct/kraken-ci-jobs"
+  kubernetes_cluster: "change me"
+  security: "github"
+  slack:
+    slackDomain: "samsung-cnct"
+    slackRoom: "#ping-jenkins"
+    slackApiToken: "override me"
+  github:
+    githubClientId: "override me"
+    githubAccessToken: "override me"
+    githubUserName: "override me"
+    githubClientKey: "override me"
+    admin_usernames: "countspongebob l337ch maratoid mikeln richardkaufmann Rick-Lindberg SamsungAGJenkinsBot spiffxp davidewatson cwazy1 coffeepac venezia alejandroEsc sostheim DStorck leahnp kmansel"
+  gke:
+    gkeProject: "change me"
+    svcAccountId: "override me"
+    svcAccountKey: "override me"
+  ssh:
+    sshPrivateKey: "change me"
+    sshPublicKey: "change me"
+  service: "NodePort"
+  persistence:
+    enabled: false
+  helm:
+    svcAccountId: "override me"
+    svcAccountKey: "override me"
+jenkins-ingress:
+  tls: true
+  controller: "gce"
+  domain: "jenkins.cnct.io"
+  port: 8080
+service-dns-google-cloud:
+  ingressName: "jenkins-ingress"
+  ttl: 5
+  dns_zone: "change me"
+  domain: "jenkins.cnct.io"

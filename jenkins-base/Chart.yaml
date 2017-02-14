@@ -1,7 +1,7 @@
-name: k2-jenkins
-home: https://github.com/jfelten/kraken-ci-chart/
+name: jenkins-base
+home: https://github.com/samsung-cnct/k2-charts
 version: 0.0.1
-description: A Jenkins Helm chart for running kraken ci
+description: A helm chart for running kubernetes-based jenkins ci with slaves
 sources:
   - https://github.com/jenkinsci/jenkins
   - https://github.com/jenkinsci/docker-jnlp-slave

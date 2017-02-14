@@ -1,0 +1,132 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: jenkins
+  labels:
+    name: jenkins
+    heritage: {{.Release.Service | quote }}
+    release: {{.Release.Name | quote }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    component: "{{.Release.Name}}-jenkins-master"
+  annotations:
+    "helm.sh/created": {{.Release.Time.Seconds | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: "{{.Release.Name}}-jenkins-master"
+  template:
+    metadata:
+      labels:
+        name: jenkins
+        heritage: {{.Release.Service | quote }}
+        release: {{.Release.Name | quote }}
+        chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+        component: "{{.Release.Name}}-jenkins-master"
+      annotations:
+        "pod.beta.kubernetes.io/init-containers": '[
+          {
+              "name": "copy-default-configs",
+              "imagePullPolicy": "Always",
+              "image": "{{.Values.master.image}}",
+              "command": ["bash", "-ec", "/var/jenkins_config/render-jenkins-config.sh"],
+              "volumeMounts": [
+                  {
+                      "name": "jenkins-config",
+                      "mountPath": "/var/jenkins_config"
+                  },
+                  {
+                      "name": "jenkins-home",
+                      "mountPath": "/var/jenkins_home"
+                  },
+                  {
+                      "name": "jenkins-jobs",
+                      "mountPath": "/etc/jenkins-jobs"
+                  }
+              ]
+          }
+        ]'
+    spec:
+      securityContext:
+        runAsUser: 0
+      containers:
+        - name: jenkins
+          image: "{{.Values.master.image}}"
+          imagePullPolicy: Always
+          env:
+            - name: JAVA_OPTS
+              value: "{{ .Values.javaOptions }}"
+            - name: ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins
+                  key: jenkins-admin-password
+            - name: ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: jenkins
+                  key: jenkins-admin-user
+            - name: JENKINS_OPTS
+              value: "--argumentsRealm.passwd.$(ADMIN_USER)=$(ADMIN_PASSWORD) --argumentsRealm.roles.$(ADMIN_USER)=admin"
+            - name: VIRTUAL_HOST
+              value: "{{.Values.jenkinsUrl}}"
+            - name: VIRTUAL_PORT
+              value: "{{.Values.master.port}}"
+          ports:
+            - containerPort: {{.Values.master.port}}
+              name: http
+            - containerPort: {{.Values.agent.port}}
+              name: slavelistener
+          resources:
+            requests:
+              cpu: "{{.Values.master.cpu}}"
+              memory: "{{.Values.master.memory}}"
+          livenessProbe:
+            httpGet:
+              path: /robots.txt
+              port: http
+            initialDelaySeconds: 250
+            timeoutSeconds: 2                 
+          volumeMounts:
+            -
+              mountPath: /var/jenkins_home
+              name: jenkins-home
+              readOnly: false
+            -
+              mountPath: /var/jenkins_config
+              name: jenkins-config
+              readOnly: false
+            -
+              mountPath: /var/jenkins_home/jobs
+              name: jenkins-jobs
+              readOnly: false
+            -
+              mountPath: /etc/jenkins-ssh-keys
+              name: jenkins-ssh-keys
+              readOnly: true
+            -
+              mountPath: /etc/service-account-keys
+              name: service-account-keys
+              readOnly: true
+      volumes:
+      - name: jenkins-config
+        configMap:
+          name: jenkins-configuration
+          defaultMode: 0775
+      - name: jenkins-home
+        emptyDir: {}
+      - name: jenkins-ssh-keys
+        secret:
+          secretName: jenkins-ssh-{{.Release.Name}}
+          defaultMode: 0400
+      - name: service-account-keys
+        secret: 
+            secretName: "jenkins-gke-{{.Release.Name}}"
+      {{- if .Values.persistence.enabled }}
+      - name: jenkins-jobs
+        persistentVolumeClaim:
+          claimName: jenkins
+      {{- else }}
+      - name: jenkins-jobs
+        emptyDir: {}
+      {{- end -}}

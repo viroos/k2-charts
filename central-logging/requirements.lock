@@ -1,0 +1,18 @@
+dependencies:
+- name: daemon-fluentd
+  repository: http://atlas.cnct.io
+  version: 0.1.0
+- name: kafka
+  repository: http://atlas.cnct.io
+  version: 0.1.0
+- name: central-fluentd
+  repository: http://atlas.cnct.io
+  version: 0.1.0
+- name: elasticsearch
+  repository: http://atlas.cnct.io
+  version: 0.1.0
+- name: kibana
+  repository: http://atlas.cnct.io
+  version: 0.1.0
+digest: sha256:b0373ce750a8d495d9dbd99342eb2e4c4ed938ae805b9a6e946cc145defb49c5
+generated: 2017-01-23T15:33:10.973242445-08:00

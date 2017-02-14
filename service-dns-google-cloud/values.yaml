@@ -1,0 +1,10 @@
+command: 'kubectl get svc ${SERVICE_NAME} --template="{{range .status.loadBalancer.ingress}}{{.ip}}{{end}}"'
+dns_zone: "cnct-io"
+domain: "jenkins.cnct.io"
+image: "google/cloud-sdk:latest"
+project: "k8s-work"
+serviceAccount: "change me"
+serviceName: "nginx-ingress-controller"
+svcAccountKey: "change me"
+svcAccountKeyFile: "change me"
+ttl: 5

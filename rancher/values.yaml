@@ -1,0 +1,29 @@
+# Default values for rancher.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+server:
+  replicaCount: 1
+  image:
+    repository: rancher/server
+    tag: latest
+    pullPolicy: IfNotPresent
+agent:
+  replicaCount: 1
+  image:
+    repository: rancher/agent
+    tag: latest
+    pullPolicy: IfNotPresent
+service:
+  name: rancher
+  type: ClusterIP
+  externalPort: 443
+  internalPort: 8080
+resources:
+  limits:
+    cpu: 400m
+    memory: 768Mi
+  requests:
+    cpu: 400m
+    memory: 768Mi
+

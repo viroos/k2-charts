@@ -1,0 +1,11 @@
+serviceType: "LoadBalancer"
+externalName:
+clusterIP:
+image: "gcr.io/google_containers/nginx-ingress-controller:0.8.3"
+backendImage: "gcr.io/google_containers/defaultbackend:1.0"
+proxyConnectTimeout: "15"
+proxyReadTimeout: "600"
+proxySendTimeout: "600"
+hstsIncludeSubdomains: "false"
+bodySize: "64m"
+serverNameHashBucketSize: "256"

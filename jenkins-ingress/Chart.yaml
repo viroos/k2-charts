@@ -1,0 +1,14 @@
+name: jenkins-ingress
+version: 0.0.1
+description: Chart for jenkins service ingress
+keywords:
+- ingress
+- jenkins
+- nginx
+home: https://github.com/samsung-cnct/k2-charts/jenkins-ingress
+sources:
+- https://github.com/jetstack/kube-lego
+maintainers:
+- name: Samsung CNCT
+  email: maratoid@gmail.com
+engine: gotpl

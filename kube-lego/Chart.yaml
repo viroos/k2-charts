@@ -1,0 +1,12 @@
+name: kube-lego
+version: 0.0.1
+description: Chart for automatically requesting certificates for Kubernetes Ingress resources from Let's Encrypt
+keywords:
+- letsencrypt
+home: https://github.com/samsung-cnct/k2-charts
+sources:
+- https://github.com/jetstack/kube-lego
+maintainers:
+- name: Samsung CNCT
+  email: maratoid@gmail.com
+engine: gotpl
