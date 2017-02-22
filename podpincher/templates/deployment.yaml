@@ -31,5 +31,4 @@ spec:
           protocol: TCP
       - image: "lachlanevenson/k8s-kubectl"
         name: kubectl
-        args: [ "proxy", "-p",  "8001" ]
-
+        args: [ "proxy", "--port=8001", "--accept-paths=^*$" ]
