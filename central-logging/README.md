@@ -2,7 +2,7 @@
 This is a centralized logging solution for a production grade Kubernetes cluster. This system ensures events are safely pulled from pods, enriched with Kubernetes metadata, saved in a data store and made available for visualizing and querying - without ever leaving the kubernetes cluster.
 
 ## Installation
-Install this system in your cluster with [Helm](https://github.com/kubernetes/helm) with: 
+Install this system in your cluster with [Helm](https://github.com/kubernetes/helm) with:
 
 ```$ helm repo add cnct http://atlas.cnct.io```
 ```$ helm install cnct/central-logging```
@@ -21,20 +21,22 @@ Or add the following to your [K2](https://github.com/samsung-cnct/k2) configurat
         name: central-logging
         repo: atlas
         chart: central-logging
-        version: 0.2.0 
+        version: 0.2.0
 ```
+
+Update the count of clusterNodes to 6 and update the providerConfig.type to m4.xlarge
 
 Get [K2](https://github.com/samsung-cnct/k2) to help you deploy a Kubernetes cluster.
 
 ## Assets
-Assets for each component in the centralized logging system including github repo, quay repo and helm chart. 
+Assets for each component in the centralized logging system including github repo, quay repo and helm chart.
 
 **On Node Collector:** A FluentD daemonset is responsible for collecting logs from applications on pods.
 Github Repo: https://github.com/samsung-cnct/k2-logging-fluentd-daemonset
 Image: https://quay.io/repository/samsung_cnct/fluentd_daemonset
 Helm Chart: https://github.com/samsung-cnct/k2-charts/tree/master/daemon-fluentd
 
-**Log Transport Bus:** Kafka 
+**Log Transport Bus:** Kafka
 * Github Repo: https://github.com/samsung-cnct/kafka-kubernetes
 * Monitor Github Repo: https://github.com/samsung-cnct/kafka-monitor-kubernetes
 * Image: https://quay.io/repository/samsung_cnct/kafka-petset
