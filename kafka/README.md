@@ -1,4 +1,4 @@
-## Kakfa Chart for Kubernetes
+## Kafka Chart for Kubernetes
 
 Kafka is installed as StateFul Set and automatically includes a ZooKeeper chart,
 which is also installed a StateFul Set.  
