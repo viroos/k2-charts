@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart to server contensts of a google bucket through http
+name: gsbucketserver
+version: 0.1.0

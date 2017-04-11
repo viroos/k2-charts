@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  labels:
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "fullname" . }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        command: ["/etc/scripts/start.sh"]
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: {{ .Values.service.internalPort }}
+#        livenessProbe:
+#          httpGet:
+#            path: /
+#            port: {{ .Values.service.internalPort }}
+#        readinessProbe:
+#          httpGet:
+#            path: /
+#            port: {{ .Values.service.internalPort }}
+        volumeMounts:
+          # This name must match the volumes.name below.
+        - name: scripts
+          mountPath: /etc/scripts
+          readOnly: true
+      volumes:
+        - name: scripts
+          configMap: 
+            name: '{{ template "fullname" . }}'
+            defaultMode: 0775
