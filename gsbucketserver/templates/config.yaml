@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: '{{ template "fullname" . }}'
+data:
+  start.sh: |-
+      #!/bin/bash
+      
+      #mount gcs buckets
+      gcsfuse -o allow_other --stat-cache-ttl 0 --type-cache-ttl 0 {{ .Values.gsbucketName }} {{ .Values.mountDir }}
+      
+      #start nginx
+      nginx -g 'daemon off;'
+      
