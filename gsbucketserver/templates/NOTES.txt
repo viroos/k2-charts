@@ -1,4 +1,4 @@
-This is the container is now serving the gs bucket: {{ .Values.gsbucketName }} over http
+This container is now serving the gs bucket: {{ .Values.gsbucketName }} over http
 
 1. Get the application URL by running these commands:
 {{- if contains "NodePort" .Values.service.type }}
@@ -7,7 +7,7 @@ This is the container is now serving the gs bucket: {{ .Values.gsbucketName }} o
   echo http://$NODE_IP:$NODE_PORT/login
 {{- else if contains "LoadBalancer" .Values.service.type }}
      NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-           You can watch the status of by running 'kubectl get svc -w {{ template "fullname" . }}'
+           You can watch the status by running 'kubectl get svc -w {{ template "fullname" . }}'
   export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ template "fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
   echo http://$SERVICE_IP:{{ .Values.service.externalPort }}
 {{- else if contains "ClusterIP"  .Values.service.type }}

@@ -20,16 +20,7 @@ spec:
           privileged: true
         ports:
         - containerPort: {{ .Values.service.internalPort }}
-#        livenessProbe:
-#          httpGet:
-#            path: /
-#            port: {{ .Values.service.internalPort }}
-#        readinessProbe:
-#          httpGet:
-#            path: /
-#            port: {{ .Values.service.internalPort }}
         volumeMounts:
-          # This name must match the volumes.name below.
         - name: scripts
           mountPath: /etc/scripts
           readOnly: true
