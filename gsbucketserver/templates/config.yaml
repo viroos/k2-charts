@@ -7,6 +7,7 @@ data:
       #!/bin/bash
       
       #mount gcs buckets
+      mkdir -p {{ .Values.mountDir }}
       gcsfuse -o allow_other --stat-cache-ttl 0 --type-cache-ttl 0 {{ .Values.gsbucketName }} {{ .Values.mountDir }}
       
       #start nginx
