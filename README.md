@@ -1,6 +1,6 @@
 ## K2 Helm charts
 
-This is a repository of Helm charts that could be useful for deploying a K2 cluster with the functionality your application requires. 
+This is a repository of Helm charts that could be useful for deploying a K2 cluster with the functionality your application requires.
 
 For an introduction to Helm and how to use charts in your K2 application: [helm.sh](https://helm.sh/)
 
@@ -9,20 +9,23 @@ These charts are automatically linted and published with Jenkins CI to the CNCT 
 To install a chart with a K2 template yaml:
 
 ```
-clusterServices:
-  repos:
-    -
-      name: atlas
-      url: http://atlas.cnct.io
-  services:
-    -
-      name: kafka
-      repo: atlas
-      chart: kafka
-      version: 0.1.0
+helmConfigs:
+  - &defaultHelm
+    name: defaultHelm
+    kind: helm
+    repos:
+      -
+        name: atlas
+        url: http://atlas.cnct.io
+    charts:
+      -
+        name: kafka
+        repo: atlas
+        chart: kafka
+        version: 0.1.0
 ```
 
-To use helm locally in you cluster to install charts: 
+To use helm locally in your cluster to install charts:
 
 Run a command similar to:
 

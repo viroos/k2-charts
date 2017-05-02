@@ -14,28 +14,31 @@ Get Helm [here](https://github.com/kubernetes/helm/blob/master/docs/install.md).
 
 Or add the following to your [K2](https://github.com/samsung-cnct/k2) configuration template:
 ```
-clusterServices:
-  repos:
-    -
-      name: atlas
-      url: http://atlas.cnct.io
-  services:
-    -
-      name: vault
-      repo: atlas
-      chart: vault
-      version: 0.1.0
-      namespace: kube-secret
-      values:
-        Vault:
-          Backend:
-            Type: "consul"
-            Address: <Your Consul Endpoint>
-            Scheme: "http"
-            Token: "token"
-          Tls:
-            Cert: <Your TLS Cert, base64 encoded>
-            Key: <Your TLS Key, base64 encoded>
+helmConfigs:
+  - &defaultHelm
+    name: defaultHelm
+    kind: helm
+    repos:
+      -
+        name: atlas
+        url: http://atlas.cnct.io
+    charts:
+      -
+        name: vault
+        repo: atlas
+        chart: vault
+        version: 0.1.0
+        namespace: kube-secret
+        values:
+          Vault:
+            Backend:
+              Type: "consul"
+              Address: <Your Consul Endpoint>
+              Scheme: "http"
+              Token: "token"
+            Tls:
+              Cert: <Your TLS Cert, base64 encoded>
+              Key: <Your TLS Key, base64 encoded>
 ```
 
 Get [K2](https://github.com/samsung-cnct/k2) to help you deploy a Kubernetes cluster.
@@ -68,16 +71,16 @@ Vault:
   Memory: "200Mi"
 
   Tls:
-    Cert: <TLS Cert, base64 encoded PEM> 
+    Cert: <TLS Cert, base64 encoded PEM>
     Key: <TLS Key, base64 encoded PEM>
 ```
 
 for backend,
 it support
-  - consul 
+  - consul
   - inmem
 
-in case of inmem, below vaules is not used 
+in case of inmem, below vaules is not used
  - address
  - scheme
  - token

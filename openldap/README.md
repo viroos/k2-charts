@@ -14,22 +14,25 @@ Get Helm [here](https://github.com/kubernetes/helm/blob/master/docs/install.md).
 
 Or add the following to your [K2](https://github.com/samsung-cnct/k2) configuration template:
 ```
-clusterServices:
-  repos:
-    -
-      name: atlas
-      url: http://atlas.cnct.io
-  services:
-    -
-      name: openldap
-      repo: atlas
-      chart: openldap
-      version: 0.1.0
-      namespace: kube-auth
-      values:
-        OpenLdap:
-          Domain: <Your LDAP base domain>
-          AdminPassword: <Your admin password>
+helmConfigs:
+  - &defaultHelm
+    name: defaultHelm
+    kind: helm
+    repos:
+      -
+        name: atlas
+        url: http://atlas.cnct.io
+    charts:
+      -
+        name: openldap
+        repo: atlas
+        chart: openldap
+        version: 0.1.0
+        namespace: kube-auth
+        values:
+          OpenLdap:
+            Domain: <Your LDAP base domain>
+            AdminPassword: <Your admin password>
 ```
 
 Get [K2](https://github.com/samsung-cnct/k2) to help you deploy a Kubernetes cluster.
@@ -86,7 +89,7 @@ PhpLdapAdmin:
 ```
 
 ## Test
-1. From your browser, access to PHPAdmin 
+1. From your browser, access to PHPAdmin
 2. login to ldap
   Login DN :
     cn=admin,dc=local,dc=io
