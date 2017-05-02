@@ -11,17 +11,21 @@ Get Helm [here](https://github.com/kubernetes/helm/blob/master/docs/install.md).
 
 Or add the following to your [K2](https://github.com/samsung-cnct/k2) configuration template:
 
-```  clusterServices:
+```  
+helmConfigs:
+  - &defaultHelm
+    name: defaultHelm
+    kind: helm
     repos:
-      -
-        name: atlas
-        url: http://atlas.cnct.io
-    services:
-      -
-        name: central-logging
-        repo: atlas
-        chart: central-logging
-        version: 0.2.0
+        -
+          name: atlas
+          url: http://atlas.cnct.io
+      charts:
+        -
+          name: central-logging
+          repo: atlas
+          chart: central-logging
+          version: 0.2.0
 ```
 
 Update the count of clusterNodes to 6 and update the providerConfig.type to m4.xlarge

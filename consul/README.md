@@ -14,21 +14,24 @@ Get Helm [here](https://github.com/kubernetes/helm/blob/master/docs/install.md).
 
 Or add the following to your [K2](https://github.com/samsung-cnct/k2) configuration template:
 ```
-clusterServices:
-  repos:
-    -
-      name: atlas
-      url: http://atlas.cnct.io
-  services:
-    -
-      name: consul
-      repo: atlas
-      chart: consul
-      version: 0.1.0
-      namespace: kube-system
-      values:
-        Consul:
-          MasterToken: <Your Master Token>
+helmConfigs:
+  - &defaultHelm
+    name: defaultHelm
+    kind: helm
+    repos:
+      -
+        name: atlas
+        url: http://atlas.cnct.io
+    charts:
+      -
+        name: consul
+        repo: atlas
+        chart: consul
+        version: 0.1.0
+        namespace: kube-system
+        values:
+          Consul:
+            MasterToken: <Your Master Token>
 ```
 
 Get [K2](https://github.com/samsung-cnct/k2) to help you deploy a Kubernetes cluster.

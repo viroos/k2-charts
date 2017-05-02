@@ -14,28 +14,31 @@ Get Helm [here](https://github.com/kubernetes/helm/blob/master/docs/install.md).
 
 Or add the following to your [K2](https://github.com/samsung-cnct/k2) configuration template:
 ```
-clusterServices:
-  repos:
-    -
-      name: atlas
-      url: http://atlas.cnct.io
-  services:
-    -
-      name: dex
-      repo: atlas
-      chart: dex
-      version: 0.1.0
-      namespace: kube-auth
-      values:
-        Dex:
-          Issuer: <Your Dex Issuer URI, browser should accessiable on it, DexApp either.>
-          Connector:
-            OIDC:
-              
-              ClientId: <Your Client ID>
-              ClientSecret: <Your Client Secret>
-        DexApp:
-          RedirectUri: <Your DexApp Redirect URI, browser should accessibale on it.>
+helmConfigs:
+  - &defaultHelm
+    name: defaultHelm
+    kind: helm
+    repos:
+      -
+        name: atlas
+        url: http://atlas.cnct.io
+    charts:
+      -
+        name: dex
+        repo: atlas
+        chart: dex
+        version: 0.1.0
+        namespace: kube-auth
+        values:
+          Dex:
+            Issuer: <Your Dex Issuer URI, browser should accessiable on it, DexApp either.>
+            Connector:
+              OIDC:
+
+                ClientId: <Your Client ID>
+                ClientSecret: <Your Client Secret>
+          DexApp:
+            RedirectUri: <Your DexApp Redirect URI, browser should accessibale on it.>
 ```
 
 Get [K2](https://github.com/samsung-cnct/k2) to help you deploy a Kubernetes cluster.
@@ -45,8 +48,8 @@ Get [K2](https://github.com/samsung-cnct/k2) to help you deploy a Kubernetes clu
 Kubernetes Assets in this chart.
 
 **Dex**
-oidc provider. 
-can support various connector backend like 
+oidc provider.
+can support various connector backend like
   - LDAP
   - OIDC (including Google)
   - GitHub OAuth
