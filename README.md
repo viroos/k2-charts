@@ -25,7 +25,7 @@ helmConfigs:
         version: 0.1.0
 ```
 
-To use helm locally in you cluster to install charts:
+To use helm locally in your cluster to install charts:
 
 Run a command similar to:
 

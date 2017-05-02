@@ -38,7 +38,7 @@ helmConfigs:
                 ClientId: <Your Client ID>
                 ClientSecret: <Your Client Secret>
           DexApp:
-            RedirectUri: <Your DexApp Redirect URI, browser should accessibale on it.>
+            RedirectUri: <Your DexApp Redirect URI, browser should be accessible on it.>
 ```
 
 Get [K2](https://github.com/samsung-cnct/k2) to help you deploy a Kubernetes cluster.
