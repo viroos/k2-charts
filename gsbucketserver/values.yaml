@@ -1,8 +1,25 @@
 # Default values for nginx.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-gsbucketName: changeme
-mountDir: /usr/share/nginx/html
+
+# gcsfuse properties
+####################
+# bucketName     : this is the bucket name you want to mount on GCS
+# mountDirectory : this is the location on the pod that you want to mount the GCS bucket
+
+gcsfuse:
+  bucketName: changeme
+  mountDirectory: /usr/share/nginx/html
+
+# nginx properties
+##################
+# rootDirectory : this is the root directory for nginx to set itself up at
+# autoIndex     : this is for the nginx server to give a traditional directory
+#   listing or not for it's folder structure, value can either be "on" or "off",
+
+nginx:
+  rootDirectory: /usr/share/nginx/html
+  autoIndex: off
 
 replicaCount: 1
 image:

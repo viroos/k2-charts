@@ -3,13 +3,40 @@ kind: ConfigMap
 metadata:
   name: '{{ template "fullname" . }}'
 data:
+  default.conf: |-
+        server {
+            listen       80;
+            server_name  localhost;
+
+            location / {
+                root   {{ required "nginx.rootDirectory value is required." .Values.nginx.rootDirectory | default "/usr/share/nginx/html" }};
+                index  index.html index.htm;
+
+                # the autoindex property tells nginx whether to display the files and folders in the directory structure
+                # or not, values can either be "on" or "off"
+                autoindex {{ required "nginx.autoIndex value is required.  Value can be 'on' or 'off'." .Values.nginx.autoIndex | default "off" }};
+            }
+
+            # redirect server error pages to the static page /50x.html
+            #
+            error_page   500 502 503 504  /50x.html;
+            location = /50x.html {
+                root   {{ required "nginx.rootDirectory value is required." .Values.nginx.rootDirectory | default "/usr/share/nginx/html" }};
+            }
+        }
+
   start.sh: |-
       #!/bin/bash
       
       #mount gcs buckets
-      mkdir -p {{ .Values.mountDir }}
-      gcsfuse -o allow_other --stat-cache-ttl 0 --type-cache-ttl 0 {{ .Values.gsbucketName }} {{ .Values.mountDir }}
+      mkdir -p {{ required "gcsfuse.mountDirectory value is required." .Values.gcsfuse.mountDirectory | default "/usr/share/nginx/html" }}
+      gcsfuse -o allow_other --stat-cache-ttl 0 --type-cache-ttl 0 {{ required "gcsfuse.bucketName value is required." .Values.gcsfuse.bucketName }} {{ required "gcsfuse.mountDirectory value is required." .Values.gcsfuse.mountDirectory | default "/usr/share/nginx/html" }}
+
+      # copy over our default config file to the nginx directory
+      cp -f /etc/scripts/default.conf /etc/nginx/conf.d/
       
       #start nginx
       nginx -g 'daemon off;'
+
+
       
