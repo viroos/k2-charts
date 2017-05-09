@@ -23,7 +23,7 @@ nginx:
 
 replicaCount: 1
 image:
-  repository: jfelten/gsbucketserver
+  repository: quay.io/samsung_cnct/gsbucketserver
   tag: latest
   pullPolicy: Always
 service:
