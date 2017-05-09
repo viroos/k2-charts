@@ -4,4 +4,4 @@
 docker build -t <YOUR_TAG> ./Dockerfile
 ```
 
-## Docker image currently lives at: jfelten/gsbucketserver
+## Docker image currently lives at: quay.io/samsung_cnct/gsbucketserver
