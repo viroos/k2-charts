@@ -4,10 +4,16 @@ metadata:
   name: {{ template "fullname" . }}
   labels:
     chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+  {{ if .Values.lbex.enabled }}
+  annotations:
+    "kubernetes.io/loadbalancer-class": "loadbalancer-lbex"
+    "loadbalancer-port.lbex/{{ template "fullname" . }}": "{{ .Values.lbex.port }}"
+  {{ end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
-  - port: {{ .Values.service.externalPort }}
+  - name: {{ template "fullname" . }}
+    port: {{ .Values.service.externalPort }}
     targetPort: {{ .Values.service.internalPort }}
     protocol: TCP
   selector:
