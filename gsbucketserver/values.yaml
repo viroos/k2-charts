@@ -21,6 +21,10 @@ nginx:
   rootDirectory: /usr/share/nginx/html
   autoIndex: off
 
+lbex:
+  enabled: false
+  port: 9080
+  
 replicaCount: 1
 image:
   repository: quay.io/samsung_cnct/gsbucketserver
