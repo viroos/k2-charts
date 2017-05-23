@@ -62,6 +62,20 @@ helm install cnct/gsbucketserver
             <td><sub>/usr/share/nginx/html</sub></td>
             <td><sub>Any path on the pod that you'd like your GCS bucket to be mounted to.</sub></td>
         </tr>
+        <tr>
+            <td><sub>lbex.enabled</sub></td>
+            <td><sub>This enables the lbex load balancer for this deployment.</sub></td>
+            <td><sub>boolean</sub></td>
+            <td><sub>false</sub></td>
+            <td><sub>Any boolean value.</sub></td>
+        </tr>
+        <tr>
+            <td><sub>lbex.port</sub></td>
+            <td><sub>This is the lbex port that will be used by this deployment.</sub></td>
+            <td><sub>numeric</sub></td>
+            <td><sub>9080</sub></td>
+            <td><sub>Any numeric value.</sub></td>
+        </tr>
     </tbody>
 </table>
 
@@ -72,3 +86,7 @@ helm install cnct/gsbucketserver
 ```
 helm install . --name=bucket-server --namespace=production --set nginx.autoIndex=on,nginx.rootDirectory=/var/www/,gcsfuse.bucketName=my-gcs-bucket,gcsfuse.mountDirectory=/var/www/
 ```
+
+#### lbex Information
+
+For more information on lbex, visit the lbex README over here : [https://github.com/samsung-cnct/lbex/blob/master/README.md](https://github.com/samsung-cnct/lbex/blob/master/README.md)
