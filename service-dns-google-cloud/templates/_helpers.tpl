@@ -3,7 +3,7 @@
 Expand the name of the chart.
 */}}
 {{- define "name" -}}
-{{- default .Chart.Name .Values.nameOverride | trunc 24 -}}
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
@@ -11,5 +11,5 @@ Create a random (but prefixed) name for unmanaged (hook) resources for easier cl
 */}}
 {{- define "hookname" -}}
 {{- $prefix := randAlpha 15 -}}
-{{- printf "%s-%s" "hook" $prefix | lower | trunc 24 -}}
+{{- printf "%s-%s" "hook" $prefix | lower | trunc 63 -}}
 {{- end -}}
