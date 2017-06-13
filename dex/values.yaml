@@ -1,6 +1,6 @@
 Dex:
   Image: "quay.io/coreos/dex"
-  ImageTag: "v2.0.0-beta.1"
+  ImageTag: "v2.4.1"
   ImagePullPolicy: "Always"
   Component: "dex"
 
