@@ -1,0 +1,44 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-ingress-controller
+  labels:
+    heritage: {{.Release.Service | quote }}
+    release: {{.Release.Name | quote }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    component: "{{.Release.Name}}-nginx-ingress"
+  annotations:
+    "helm.sh/created": {{.Release.Time.Seconds | quote }}
+spec:
+  replicas: {{.Values.ingressController.replicas}}
+  selector:
+    matchLabels:
+        k8s-app: nginx-ingress-lb
+  template:
+    metadata:
+      labels:
+        k8s-app: nginx-ingress-lb
+    spec:
+      serviceAccountName: nginx-ingress-serviceaccount
+      containers:
+        - name: nginx-ingress-controller
+          image: {{.Values.ingressController.image}}{{.Values.ingressController.version}}
+          args:
+             - /nginx-ingress-controller
+             - --default-backend-service=default/default-http-backend
+             - --default-ssl-certificate=$(POD_NAMESPACE)/tls-certificate
+          env:
+             - name: POD_NAME
+               valueFrom:
+                 fieldRef:
+                   fieldPath: metadata.name
+               name: POD_NAMESPACE
+               valueFrom:
+                 fieldRef:
+                   fieldPath: metadata.namespace
+          ports:
+          {{- range .Values.ingressController.ports}}
+          - name: {{ .name }}
+            containerPort: {{ .number }}
+          {{- end }}

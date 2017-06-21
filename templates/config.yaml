@@ -1,0 +1,12 @@
+---
+apiVersion: v1
+data:
+  proxy-connect-timeout: "{{ .Values.configuration.proxyConnectTimeout }}"
+  proxy-read-timeout: "{{ .Values.configuration.proxyReadTimeout }}"
+  proxy-send-imeout: "{{ .Values.configuration.proxySendTimeout }}"
+  hsts-include-subdomains: "{{ .Values.configuration.hstsIncludeSubdomains }}"
+  body-size: "{{ .Values.configuration.bodySize }}"
+  server-name-hash-bucket-size: "{{ .Values.configuration.serverNameHashBucketSize }}"
+kind: ConfigMap
+metadata:
+  name: nginx-ingress-controller

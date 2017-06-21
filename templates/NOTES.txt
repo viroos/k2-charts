@@ -1,0 +1,7 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+If you have RBAC beta capabilities, RBAC rules should be created for you.
+
+Similarly, if you got any errors, please ensure tiller has rights to create RBAC roles
