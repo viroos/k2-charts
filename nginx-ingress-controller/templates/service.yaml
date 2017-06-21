@@ -13,7 +13,7 @@ metadata:
     "helm.sh/created": {{.Release.Time.Seconds | quote }}
 spec:
   type: {{ .Values.serviceType }}
-  clusterIP: {{ .Values.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.loadBalancerIP }}
   externalName: {{ .Values.externalName }}
   ports:
   - port: 80
