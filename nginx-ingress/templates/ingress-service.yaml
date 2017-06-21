@@ -1,0 +1,39 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-ingress
+  labels:
+    name: nginx-ingress
+    heritage: {{.Release.Service | quote }}
+    release: {{.Release.Name | quote }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    component: "{{.Release.Name}}-nginx-ingress"
+  annotations:
+    "helm.sh/created": {{.Release.Time.Seconds | quote }}
+spec:
+  type: {{ .Values.ingressService.type }}
+  {{- if .Values.ingressService.loadBalancerIP}}
+  loadBalancerIP: {{ .Values.ingressService.loadBalancerIP }}
+  {{- end}}
+  {{- if .Values.ingressService.externalName}}
+  externalName: {{ .Values.ingressService.externalName }}
+  {{- end}}
+  ports:
+  {{- if .Values.ingressService.nodePorts}}
+  {{- range .Values.ingressService.nodePorts}}
+  - name: {{ .name}}
+    port: {{ .port}}
+    targetPort: {{ .targetPort}}
+    protocol: {{ .protocol}}
+  {{- end}}
+  {{- else}}
+  {{- range .Values.ingressController.ports}}
+  - name: {{ .name}}
+    port: {{ .number}}
+    targetPort: {{ .number}}
+    protocol: TCP
+  {{- end}}
+  {{- end}}
+  selector:
+    k8s-app: nginx-ingress-lb

@@ -1,0 +1,40 @@
+# Options for ConfigurationMap
+configuration:
+  bodySize: 64m
+  hstsIncludeSubdomains: "false"
+  proxyConnectTimeout: 15
+  proxyReadTimeout: 600
+  proxySendTimeout: 600
+  serverNameHashBucketSize: 256
+
+ingressController:
+  image: gcr.io/google_containers/nginx-ingress-controller
+  version: 0.9.0-beta.8
+  ports:
+  - name: http
+    number: 80
+  - name: https
+    number: 443
+  replicas: 2
+
+defaultBackend:
+  image: gcr.io/google_containers/defaultbackend
+  version: 1.0
+  resources:
+    memory: 20Mi
+    cpu: 10m
+  replicas: 1
+
+ingressService:
+  type: LoadBalancer
+#  nodePorts:
+#  - name: http
+#    port: 8080
+#    targetPort: 80
+#    protocol: TCP
+#  - name: https
+#    port: 8443
+#    targetPort: 443
+#    protocol: TCP
+  loadBalancerIP:
+  externalName:
