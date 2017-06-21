@@ -1,3 +1,7 @@
+# Deprecated
+
+This chart has been deprecated. Please see https://kubeapps.com/charts/stable/prometheus for a possible replacement chart.
+
 # Usage
 
 The Prometheus Service is exposed as a [NodePort](http://kubernetes.io/docs/user-guide/services/#type-nodeport) type Kubernetes Service. Users typically interact with it through a proxied endpoint. When using k2 on AWS, each master node is behind an ELB. To determine the CNAME for the ELB use kubectl. For example:
