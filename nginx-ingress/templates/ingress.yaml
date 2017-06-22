@@ -23,10 +23,14 @@ spec:
       serviceAccountName: nginx-ingress-serviceaccount
       containers:
         - name: nginx-ingress-controller
-          image: {{.Values.ingressController.image}}{{.Values.ingressController.version}}
+          image: {{.Values.ingressController.image}}:{{.Values.ingressController.version}}
           args:
              - /nginx-ingress-controller
-             - --default-backend-service=default/default-http-backend
+             {{- if .Values.defaultBackend.namespace }}
+             - --default-backend-service={{ .Values.defaultBackend.namespace }}/default-http-backend
+             {{- else }}
+             - --default-backend-service={{ .Release.Namespace }}/default-http-backend
+             {{- end}}
              - --default-ssl-certificate=$(POD_NAMESPACE)/tls-certificate
           env:
              - name: POD_NAME

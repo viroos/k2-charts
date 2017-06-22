@@ -1,5 +1,5 @@
 name: nginx-ingress
-version: 0.1.0
+version: 0.1.2
 description: Chart for an nginx powered ingress controller
 keywords:
 - nginx

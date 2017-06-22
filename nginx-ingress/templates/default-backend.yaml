@@ -12,6 +12,9 @@ metadata:
     component: "{{.Release.Name}}-default-http-backend"
   annotations:
     "helm.sh/created": {{.Release.Time.Seconds | quote }}
+  {{- if .Values.defaultBackend.namespace }}
+  namespace: {{.Values.defaultBackend.namespace}}
+  {{- end}}
 spec:
   replicas: {{.Values.defaultBackend.replicas}}
   template:
@@ -53,6 +56,9 @@ metadata:
     component: "{{.Release.Name}}-default-http-backend"
   annotations:
     "helm.sh/created": {{.Release.Time.Seconds | quote }}
+  {{- if .Values.defaultBackend.namespace }}
+  namespace: {{.Values.defaultBackend.namespace}}
+  {{- end}}
 spec:
   ports:
   - port: 80
