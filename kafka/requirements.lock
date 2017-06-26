@@ -1,6 +1,6 @@
 dependencies:
 - name: zookeeper
   repository: http://atlas.cnct.io
-  version: 0.2.1
+  version: 0.2.2
 digest: sha256:c76483fc9d45b867717a4c2ddecb485614cff9abceacfaff426996b2ce7da68f
 generated: 2017-02-14T10:13:52.179565752-08:00
