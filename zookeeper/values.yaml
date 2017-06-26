@@ -9,7 +9,7 @@ election_name: leader
 replicas: 3
 storage_class: anything
 storage_size: 20Gi
-zk_version: 3.5.3-beta
+zk_version: 3.4.10
 install_dir: /opt
 work_dir: /work-dir
 data_dir: /tmp/zookeeper
