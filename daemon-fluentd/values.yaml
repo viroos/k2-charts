@@ -1,12 +1,30 @@
-# Default values for daemon-fluentd.
+# Values for Service Account
+sa_name: fluentd-daemon
+sa_namespace: kube-logging
+sa_component: fluentd-daemon
 
+# Values for Clusterrole
+cr_api_version: rbac.authorization.k8s.io/v1beta1
+cr_name: fluentd-daemon
+cr_component: fluentd-daemon
+
+# Values for Clusterrolebinding
+crb_api_version: rbac.authorization.k8s.io/v1beta1
+crb_name: fluentd-daemon
+crb_component: fluentd-daemon
+
+# Values for FluentD Daemonset
 name: fluentd-daemon
+namespace: kube-logging
 app: log-app
+component: fluentd-daemon
 k8s: fluentd-logging
-fluentd_container_name: fluentd-kafka
-fluentd_image: quay.io/samsung_cnct/fluentd_daemonset
+service_account_name: fluentd-daemon
+fluentd_container_name: fluentd-daemon
+fluentd_image: leahnp/fluentd-test
 memory_limits: 200Mi
 cpu_requests: 100m
 memory_requests: 200Mi
 sidecar_container_name: logrotate-sidecar
 logrotate_image: quay.io/samsung_cnct/logrotate
+

@@ -1,6 +1,22 @@
-# Default values for central-fluentd.
+# Values for Service Account
+sa_name: fluentd-central
+sa_namespace: kube-logging
+sa_component: fluentd-central
 
+# Values for Cluster Role
+cr_name: fluentd-central
+cr_api_version: rbac.authorization.k8s.io/v1beta1
+cr_component: fluentd-central
+
+# Values for Cluster Role Binding
+crb_api_version: rbac.authorization.k8s.io/v1beta1
+crb_name: fluentd-central
+crb_component: fluentd-central
+
+
+# Values for Central FluentD Deployment
 name: central-fluentd-deployment
+namespace: kube-logging
 replicas: 3
 image: quay.io/samsung_cnct/fluentd-central
 app: log_app
