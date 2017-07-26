@@ -10,3 +10,4 @@ maintainers:
 - name: Samsung CNCT
   email: maratoid@gmail.com
 engine: gotpl
+deprecated: true

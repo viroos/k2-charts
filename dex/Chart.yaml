@@ -8,3 +8,4 @@ maintainers:
   - name: Chanhun Jeong
     email: keyolk@gmail.com
 engine: gotpl
+deprecated: true

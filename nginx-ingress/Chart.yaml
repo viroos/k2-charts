@@ -17,3 +17,4 @@ maintainers:
   email: mvenezia@gmail.com
 icon: https://davidewatson.github.io/k2/_static/k2.png
 engine: gotpl
+deprecated: true
