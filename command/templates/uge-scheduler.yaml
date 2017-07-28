@@ -61,3 +61,12 @@ spec:
       - name: uge-rest
         secret:
            secretName: uge-rest
+      {{- if .Values.tolerations }}
+      tolerations:
+      {{- range .Values.tolerations }}
+      - key: {{ .key | default ("") }}
+      value: {{ .value | default ("")}}
+      operator: {{ .operator | default ("Equal") }}
+      effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}

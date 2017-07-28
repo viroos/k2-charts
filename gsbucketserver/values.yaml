@@ -30,7 +30,7 @@ nginx:
 lbex:
   enabled: false
   port: 9080
-  
+
 replicaCount: 1
 image:
   repository: quay.io/samsung_cnct/gsbucketserver
@@ -48,3 +48,8 @@ resources:
     cpu: 100m
     memory: 128Mi
 
+tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

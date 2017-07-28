@@ -42,6 +42,15 @@ spec:
           requests:
             cpu: {{.Values.defaultBackend.resources.cpu}}
             memory: {{.Values.defaultBackend.resources.memory}}
+      {{- if .Values.defaultBackend.tolerations }}
+      tolerations:
+      {{- range .Values.defaultBackend.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
 ---
 apiVersion: v1
 kind: Service

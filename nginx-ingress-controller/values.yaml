@@ -1,4 +1,9 @@
 backendImage: "gcr.io/google_containers/defaultbackend:1.0"
+backend_tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule
 bodySize: "64m"
 externalName:
 hstsIncludeSubdomains: "false"
@@ -10,3 +15,8 @@ proxySendTimeout: "600"
 replicas: "1"
 serverNameHashBucketSize: "256"
 serviceType: "LoadBalancer"
+tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

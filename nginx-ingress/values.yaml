@@ -25,6 +25,11 @@ defaultBackend:
     memory: 20Mi
     cpu: 10m
   replicas: 1
+  tolerations:
+   # - key: taintKey
+   #   value: taintValue
+   #   operator: Equal
+   #   effect: NoSchedule
 
 ingressService:
   type: LoadBalancer
@@ -39,3 +44,8 @@ ingressService:
 #    protocol: TCP
   loadBalancerIP:
   externalName:
+  tolerations:
+   # - key: taintKey
+   #   value: taintValue
+   #   operator: Equal
+   #   effect: NoSchedule

@@ -2,3 +2,8 @@
 # This is a YAML-formatted file
 scheduler_password: changeme
 dockercfg_base64: changeme
+tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

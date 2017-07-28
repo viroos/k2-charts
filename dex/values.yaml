@@ -4,7 +4,7 @@ Dex:
   ImagePullPolicy: "Always"
   Component: "dex"
 
-  #Should be accessible from user browser. 
+  #Should be accessible from user browser.
   NodePort: 30443
   Issuer: "https://kube-1.local.io:30443"
 
@@ -60,16 +60,28 @@ Dex:
   Cpu: "512m"
   Replicas: 1
 
+  tolerations:
+   # - key: taintKey
+   #   value: taintValue
+   #   operator: Equal
+   #   effect: NoSchedule
+
 DexApp:
   Image: "quay.io/keyolk/dex-app"
   ImageTag: "0.0.1"
   ImagePullPolicy: "Always"
   Component: "dex-app"
 
-  #Should be accessible from user browser 
+  #Should be accessible from user browser
   NodePort: 30080
   RedirectUri: http://kube-1.local.io:30080/callback
 
   Memory: "200Mi"
   Cpu: "512m"
   Replicas: 1
+
+  tolerations:
+   # - key: taintKey
+   #   value: taintValue
+   #   operator: Equal
+   #   effect: NoSchedule

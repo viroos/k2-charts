@@ -21,3 +21,12 @@ spec:
 
         resources:
 {{ toYaml .Values.resources | indent 12 }}
+      {{- if .Values.agent.tolerations }}
+      tolerations:
+      {{- range .Values.agent.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}

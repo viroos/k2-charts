@@ -46,6 +46,15 @@ spec:
         volumeMounts:
         - name: datadir
           mountPath: {{.Values.datadir}}
+      {{- if .Values.kafka_tolerations }}
+      tolerations:
+      {{- range .Values.kafka_tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
   volumeClaimTemplates:
   - metadata:
       name: datadir
@@ -100,6 +109,15 @@ spec:
         - name: config-volume
           configMap:
             name: kafka-monitor-properties
+{{- if .Values.kafka_monitor_tolerations }}
+      tolerations:
+      {{- range .Values.kafka_monitor_tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+{{- end }}
 ---
 # kafka-monitor service
 apiVersion: v1

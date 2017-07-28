@@ -9,3 +9,9 @@ persistence:
   storageClass: generic
   accessMode: ReadWriteOnce
   size: "1Gi"
+
+tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

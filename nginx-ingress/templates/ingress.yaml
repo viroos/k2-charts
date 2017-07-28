@@ -46,3 +46,12 @@ spec:
           - name: {{ .name }}
             containerPort: {{ .number }}
           {{- end }}
+      {{- if .Values.ingressController.tolerations }}
+      tolerations:
+      {{- range .Values.ingressController.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}

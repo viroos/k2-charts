@@ -13,3 +13,8 @@ storage_class: anything
 # 1Gi is arbitrary here. See https://prometheus.io/docs/operating/storage/ for
 # volume sizing information.
 storage_size: 1Gi
+tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

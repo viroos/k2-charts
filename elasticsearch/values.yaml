@@ -31,6 +31,11 @@ master_volume_storage: 20Gi
 # Xms & Xmx: must be the same
 # should be ~75% of total memory allocation
 master_Xms_Xmx: 3g
+master_tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule
 
 #Cluster StatefulSet
 data_name: elasticsearch-data
@@ -48,3 +53,8 @@ data_volume_storage: 20Gi
 # Xms & Xmx: must be the same
 # should be ~75% of total memory allocation
 data_Xms_Xmx: 3g
+data_tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

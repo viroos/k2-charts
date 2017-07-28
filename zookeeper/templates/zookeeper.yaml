@@ -109,6 +109,15 @@ spec:
         emptyDir: {}
       - name: workdir
         emptyDir: {}
+      {{- if .Values.tolerations }}
+      tolerations:
+      {{- range .Values.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
   volumeClaimTemplates:
   - metadata:
       name: datadir

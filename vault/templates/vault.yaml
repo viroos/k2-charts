@@ -6,7 +6,7 @@ metadata:
 spec:
 {{- if .Values.Vault.NodePort }}
   type: NodePort
-{{- end}}        
+{{- end}}
   ports:
     - name: {{.Release.Name}}
       protocol: TCP
@@ -16,7 +16,7 @@ spec:
 {{- else }}
       port: 80
       targetPort: 80
-{{- end}}        
+{{- end}}
 {{- if .Values.Vault.NodePort }}
       nodePort: {{ .Values.Vault.NodePort }}
 {{- end}}
@@ -37,30 +37,30 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{.Release.Name}}
-data: 
+data:
   config.json : |
-{{- if eq .Values.Vault.Backend.Type "inmem"}}    
+{{- if eq .Values.Vault.Backend.Type "inmem"}}
     backend "inmem" {
 
     }
 {{- end}}
-{{- if eq .Values.Vault.Backend.Type "consul"}}    
+{{- if eq .Values.Vault.Backend.Type "consul"}}
     backend "consul" {
       address = "{{.Values.Vault.Backend.Address}}"
       scheme = "{{.Values.Vault.Backend.Scheme}}"
       token = "{{.Values.Vault.Backend.Token}}"
     }
 {{- end}}
-    
+
     listener "tcp" {
 {{- if .Values.Vault.Tls }}
       address = "0.0.0.0:443"
       tls_key_file = "/etc/vault/tls/vault.key"
       tls_cert_file = "/etc/vault/tls/vault.crt"
-{{- else}}      
+{{- else}}
       address = "0.0.0.0:80"
       tls_skip_verify = true
-{{- end}}      
+{{- end}}
     }
 
     disable_mlock = true
@@ -118,4 +118,13 @@ spec:
       - name: tls
         secret:
           secretName: {{.Release.Name}}.tls
+{{- end }}
+{{- if .Values.Vault.tolerations }}
+      tolerations:
+      {{- range .Values.Vault.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
 {{- end }}

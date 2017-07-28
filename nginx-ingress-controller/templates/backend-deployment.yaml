@@ -39,3 +39,12 @@ spec:
           requests:
             cpu: 10m
             memory: 20Mi
+      {{- if .Values.backend_tolerations }}
+      tolerations:
+      {{- range .Values.backend_tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}

@@ -16,7 +16,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: {{.Release.Name}} 
+  name: {{.Release.Name}}
 spec:
   replicas: {{.Values.OpenLdap.Replicas}}
   template:
@@ -35,3 +35,12 @@ spec:
           value: {{.Values.OpenLdap.Domain}}
         - name: LDAP_ADMIN_PASSWORD
           value: {{.Values.OpenLdap.AdminPassword}}
+      {{- if .Values.OpenLdap.tolerations }}
+      tolerations:
+      {{- range .Values.OpenLdap.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}

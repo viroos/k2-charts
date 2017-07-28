@@ -10,6 +10,11 @@ heapster_stats_res: 30s
 heapster_sink_freq: 1m
 heapster_port: 8082
 heapster_nodeport: 30310
+heapster_tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule
 grafana_version: v2
 grafana_color: 6666FF
 grafana_image: gcr.io/google_containers/heapster_grafana:v2.1.1
@@ -20,8 +25,13 @@ grafana_nodeport: 30320
 influx_port: 8086
 influx_port_secondary: 8083
 influx_nodeport: 30322
-influx_nodeport_secondary: 30321 
+influx_nodeport_secondary: 30321
 influx_image: gcr.io/google_containers/heapster_influxdb:v0.4
 influx_cpu: 100m
 influx_mem: 200Mi
 node_selector: node-001
+influx_tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

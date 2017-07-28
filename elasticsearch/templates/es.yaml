@@ -100,6 +100,15 @@ spec:
       - name: hostproc
         hostPath:
           path: /proc
+{{- if .Values.master_tolerations }}
+      tolerations:
+     {{- range .Values.master_tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+     {{- end }}
+{{- end }}
   volumeClaimTemplates:
   - metadata:
       name: esdata
@@ -182,6 +191,15 @@ spec:
       - name: hostproc
         hostPath:
           path: /proc
+{{- if .Values.data_tolerations }}
+      tolerations:
+      {{- range .Values.data_tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+{{- end }}
   volumeClaimTemplates:
   - metadata:
       name: esdata

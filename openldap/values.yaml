@@ -13,6 +13,13 @@ OpenLdap:
   AdminPassword: "admin"
   Https: "false"
 
+  tolerations:
+   # - key: taintKey
+   #   value: taintValue
+   #   operator: Equal
+   #   effect: NoSchedule
+
+
 PhpLdapAdmin:
   Image: "docker.io/osixia/phpldapadmin"
   ImageTag: "0.6.12"
@@ -26,3 +33,9 @@ PhpLdapAdmin:
 
   Cpu: "512m"
   Memory: "200Mi"
+
+  tolerations:
+   # - key: taintKey
+   #   value: taintValue
+   #   operator: Equal
+   #   effect: NoSchedule

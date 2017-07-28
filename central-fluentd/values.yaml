@@ -22,3 +22,8 @@ image: quay.io/samsung_cnct/fluentd-central
 app: log_app
 containerPort: 80
 
+tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

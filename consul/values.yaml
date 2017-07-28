@@ -11,3 +11,9 @@ Consul:
 
   Cpu: "512m"
   Memory: "200Mi"
+
+tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

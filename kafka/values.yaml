@@ -19,6 +19,11 @@ env_vars:
     value: "true"
   - name: KAFKA_CREATE_TOPICS
     value: "kmf-topic:6:2"
+kafka_tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule
 monitor_replicas: 1
 kafka_monitor_image: quay.io/samsung_cnct/kafka-monitor:0.1
 kafka_monitor_config_path: /opt/kafka-monitor/config
@@ -59,10 +64,13 @@ kafka_monitor_properties: >-
       "class.name": "com.linkedin.kmf.services.JettyService",
       "jetty.port": 8000
     },
-  
+
     "jolokia-service": {
       "class.name": "com.linkedin.kmf.services.JolokiaService"
     }
   }'
-
-#
+kafka_monitor_tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

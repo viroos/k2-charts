@@ -33,3 +33,12 @@ spec:
             - --sink=influxdb:http://monitoring-influxdb:{{.Values.influx_port}}
             - --stats_resolution={{.Values.heapster_stats_res}}
             - --sink_frequency={{.Values.heapster_sink_freq}}
+      {{- if .Values.heapster_tolerations }}
+      tolerations:
+      {{- range .Values.heapster_tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}

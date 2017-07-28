@@ -74,3 +74,9 @@ helm:
   svcAccountId: "change me"
   svcAccountKey: "change me"
   svcAccountKeyFile:
+
+tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

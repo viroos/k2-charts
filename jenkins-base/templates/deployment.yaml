@@ -86,7 +86,7 @@ spec:
               path: /robots.txt
               port: http
             initialDelaySeconds: 250
-            timeoutSeconds: 2                 
+            timeoutSeconds: 2
           volumeMounts:
             -
               mountPath: /var/jenkins_home
@@ -120,7 +120,7 @@ spec:
           secretName: jenkins-ssh-{{.Release.Name}}
           defaultMode: 0400
       - name: service-account-keys
-        secret: 
+        secret:
             secretName: "jenkins-gke-{{.Release.Name}}"
       {{- if .Values.persistence.enabled }}
       - name: jenkins-jobs
@@ -130,3 +130,12 @@ spec:
       - name: jenkins-jobs
         emptyDir: {}
       {{- end -}}
+      {{- if .Values.tolerations }}
+      tolerations:
+      {{- range .Values.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}

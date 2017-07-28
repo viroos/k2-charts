@@ -14,11 +14,21 @@ agent:
     repository: rancher/agent
     tag: latest
     pullPolicy: IfNotPresent
+  tolerations:
+   # - key: taintKey
+   #   value: taintValue
+   #   operator: Equal
+   #   effect: NoSchedule
 service:
   name: rancher
   type: ClusterIP
   externalPort: 443
   internalPort: 8080
+  tolerations:
+   # - key: taintKey
+   #   value: taintValue
+   #   operator: Equal
+   #   effect: NoSchedule
 resources:
   limits:
     cpu: 400m
@@ -26,4 +36,3 @@ resources:
   requests:
     cpu: 400m
     memory: 768Mi
-

@@ -36,3 +36,12 @@ spec:
           value: "{{.Values.OpenLdap.Https}}"
         - name: PHPLDAPADMIN_LDAP_HOSTS
           value: "{{.Values.PhpLdapAdmin.LdapEndpoint | default .Release.Name}}"
+      {{- if .Values.PhpLdapAdmin.tolerations }}
+      tolerations:
+      {{- range .Values.PhpLdapAdmin.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}

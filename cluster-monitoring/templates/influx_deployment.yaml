@@ -68,3 +68,12 @@ spec:
         emptyDir: {}
       - name: grafana-persistent-storage
         emptyDir: {}
+      {{- if .Values.influx_tolerations }}
+      tolerations:
+      {{- range .Values.influx_tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}

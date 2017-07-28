@@ -16,3 +16,8 @@ data_dir: /tmp/zookeeper
 name: zk
 image: gcr.io/google_containers/zookeeper-install
 image_version: 0.1
+tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule

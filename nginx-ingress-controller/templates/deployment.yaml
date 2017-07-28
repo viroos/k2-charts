@@ -44,3 +44,12 @@ spec:
         - /nginx-ingress-controller
         - --default-backend-service=default/default-http-backend
         - --nginx-configmap=default/nginx-ingress-controller
+      {{- if .Values.tolerations }}
+      tolerations:
+      {{- range .Values.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
