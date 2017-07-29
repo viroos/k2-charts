@@ -13,3 +13,7 @@ base_metrics_memory: 140Mi
 metrics_memory_per_node: 4Mi
 heapster_nanny_image: gcr.io/google_containers/addon-resizer
 heapster_nanny_version: 1.6
+tolerations:
+ - key: node-role.kubernetes.io/master
+   operator: Equal
+   effect: NoSchedule

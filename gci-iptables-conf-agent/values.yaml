@@ -2,4 +2,7 @@
 name: gci-iptables-conf-agent
 app: iptables-agent
 image: quay.io/samsung_cnct/gci-iptables-conf-agent
-
+tolerations:
+ - key: node-role.kubernetes.io/master
+   operator: Equal
+   effect: NoSchedule

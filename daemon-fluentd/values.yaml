@@ -27,4 +27,7 @@ cpu_requests: 100m
 memory_requests: 200Mi
 sidecar_container_name: logrotate-sidecar
 logrotate_image: quay.io/samsung_cnct/logrotate
-
+tolerations:
+ - key: node-role.kubernetes.io/master
+   operator: Equal
+   effect: NoSchedule

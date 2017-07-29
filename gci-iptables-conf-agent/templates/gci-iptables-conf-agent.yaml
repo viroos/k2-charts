@@ -1,9 +1,10 @@
+---
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
-  name: iptables-agent 
+  name: iptables-agent
   labels:
-    name: iptables-agent 
+    name: iptables-agent
     release: {{.Release.Name | quote }}
     heritage: {{.Release.Service | quote }}
     chart: "{{.Chart.Name}}-{{.Chart.Version}}"
@@ -24,3 +25,12 @@ spec:
         securityContext:
           privileged: true
       terminationGracePeriodSeconds: 65
+      {{- if .Values.tolerations }}
+      tolerations:
+      {{- range .Values.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}

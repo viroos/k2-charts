@@ -72,3 +72,12 @@ spec:
             - --container=heapster
             - --poll-period=300000
             - --estimator=exponential
+      {{- if .Values.tolerations }}
+      tolerations:
+      {{- range .Values.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
