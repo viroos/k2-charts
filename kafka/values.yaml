@@ -24,6 +24,15 @@ kafka_tolerations:
  #   value: taintValue
  #   operator: Equal
  #   effect: NoSchedule
+kafka_scheduling:
+  affinity:
+    node:
+      type: #requiredDuringSchedulingIgnoredDuringExecution
+      labels:
+      # - key: iamalabelkey
+      #   operator: In
+      #   values: ["value1", "value2"]
+
 monitor_replicas: 1
 kafka_monitor_image: quay.io/samsung_cnct/kafka-monitor:0.1
 kafka_monitor_config_path: /opt/kafka-monitor/config
@@ -74,3 +83,11 @@ kafka_monitor_tolerations:
  #   value: taintValue
  #   operator: Equal
  #   effect: NoSchedule
+kafka_monitor_scheduling:
+  affinity:
+    node:
+      type: #requiredDuringSchedulingIgnoredDuringExecution
+      labels:
+      # - key: iamalabelkey
+      #   operator: In
+      #   values: ["value1", "value2"]

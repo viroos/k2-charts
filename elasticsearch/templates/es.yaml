@@ -148,15 +148,34 @@ spec:
       - name: hostproc
         hostPath:
           path: /proc
-{{- if .Values.master_tolerations }}
+      {{- if .Values.master_tolerations }}
       tolerations:
-     {{- range .Values.master_tolerations }}
+      {{- range .Values.master_tolerations }}
       - key: {{ .key | default ("") }}
         value: {{ .value | default ("")}}
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
-     {{- end }}
-{{- end }}
+      {{- end }}
+      {{- end }}
+      {{- if .Values.master_scheduling.affinity }}
+      {{- if .Values.master_scheduling.affinity.node }}
+      {{- if .Values.master_scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.master_scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.master_scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
   volumeClaimTemplates:
   - metadata:
       name: esdata
@@ -240,7 +259,7 @@ spec:
       - name: hostproc
         hostPath:
           path: /proc
-{{- if .Values.data_tolerations }}
+      {{- if .Values.data_tolerations }}
       tolerations:
       {{- range .Values.data_tolerations }}
       - key: {{ .key | default ("") }}
@@ -248,7 +267,26 @@ spec:
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
       {{- end }}
-{{- end }}
+      {{- end }}
+      {{- if .Values.data_scheduling.affinity }}
+      {{- if .Values.data_scheduling.affinity.node }}
+      {{- if .Values.data_scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.data_scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.data_scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
   volumeClaimTemplates:
   - metadata:
       name: esdata

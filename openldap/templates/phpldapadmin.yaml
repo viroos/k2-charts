@@ -45,3 +45,22 @@ spec:
         effect: {{ .effect  | default ("")}}
       {{- end }}
       {{- end }}
+      {{- if .Values.PhpLdapAdmin.scheduling.affinity }}
+      {{- if .Values.PhpLdapAdmin.scheduling.affinity.node }}
+      {{- if .Values.PhpLdapAdmin.scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.PhpLdapAdmin.scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.PhpLdapAdmin.scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}

@@ -77,3 +77,22 @@ spec:
         effect: {{ .effect  | default ("")}}
       {{- end }}
       {{- end }}
+      {{- if .Values.influx_scheduling.affinity }}
+      {{- if .Values.influx_scheduling.affinity.node }}
+      {{- if .Values.influx_scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.influx_scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.influx_scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}

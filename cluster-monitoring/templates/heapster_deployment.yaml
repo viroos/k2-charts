@@ -42,3 +42,22 @@ spec:
         effect: {{ .effect  | default ("")}}
       {{- end }}
       {{- end }}
+      {{- if .Values.heapster_scheduling.affinity }}
+      {{- if .Values.heapster_scheduling.affinity.node }}
+      {{- if .Values.heapster_scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.heapster_scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.heapster_scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}

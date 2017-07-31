@@ -15,6 +15,14 @@ heapster_tolerations:
  #   value: taintValue
  #   operator: Equal
  #   effect: NoSchedule
+heapster_scheduling:
+  affinity:
+    node:
+      type: #requiredDuringSchedulingIgnoredDuringExecution
+      labels:
+      # - key: iamalabelkey
+      #   operator: In
+      #   values: ["value1", "value2"]
 grafana_version: v2
 grafana_color: 6666FF
 grafana_image: gcr.io/google_containers/heapster_grafana:v2.1.1
@@ -35,3 +43,12 @@ influx_tolerations:
  #   value: taintValue
  #   operator: Equal
  #   effect: NoSchedule
+influx_scheduling:
+  affinity:
+    node:
+      type: #requiredDuringSchedulingIgnoredDuringExecution
+      labels:
+      # - key: iamalabelkey
+      #   operator: In
+      #   values: ["value1", "value2"]
+node_selector: node-001

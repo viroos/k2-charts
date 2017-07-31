@@ -55,6 +55,25 @@ spec:
         effect: {{ .effect  | default ("")}}
       {{- end }}
       {{- end }}
+      {{- if .Values.kafka_scheduling.affinity }}
+      {{- if .Values.kafka_scheduling.affinity.node }}
+      {{- if .Values.kafka_scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.kafka_scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.kafka_scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
   volumeClaimTemplates:
   - metadata:
       name: datadir
@@ -109,7 +128,7 @@ spec:
         - name: config-volume
           configMap:
             name: kafka-monitor-properties
-{{- if .Values.kafka_monitor_tolerations }}
+      {{- if .Values.kafka_monitor_tolerations }}
       tolerations:
       {{- range .Values.kafka_monitor_tolerations }}
       - key: {{ .key | default ("") }}
@@ -117,7 +136,26 @@ spec:
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
       {{- end }}
-{{- end }}
+      {{- end }}
+      {{- if .Values.kafka_monitor_scheduling.affinity }}
+      {{- if .Values.kafka_monitor_scheduling.affinity.node }}
+      {{- if .Values.kafka_monitor_scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.kafka_monitor_scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.kafka_monitor_scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
 ---
 # kafka-monitor service
 apiVersion: v1

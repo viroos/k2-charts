@@ -4,6 +4,14 @@ backend_tolerations:
  #   value: taintValue
  #   operator: Equal
  #   effect: NoSchedule
+backend_scheduling:
+  affinity:
+    node:
+      type: #requiredDuringSchedulingIgnoredDuringExecution
+      labels:
+      # - key: iamalabelkey
+      #   operator: In
+      #   values: ["value1", "value2"]
 bodySize: "64m"
 externalName:
 hstsIncludeSubdomains: "false"
@@ -15,8 +23,16 @@ proxySendTimeout: "600"
 replicas: "1"
 serverNameHashBucketSize: "256"
 serviceType: "LoadBalancer"
-tolerations:
+nginx_tolerations:
  # - key: taintKey
  #   value: taintValue
  #   operator: Equal
  #   effect: NoSchedule
+nginx_scheduling:
+  affinity:
+    node:
+      type: #requiredDuringSchedulingIgnoredDuringExecution
+      labels:
+      # - key: iamalabelkey
+      #   operator: In
+      #   values: ["value1", "value2"]

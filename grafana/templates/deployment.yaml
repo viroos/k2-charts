@@ -37,7 +37,7 @@ spec:
         - name: storage-volume
           persistentVolumeClaim:
             claimName: {{template "fullname" .}}
-{{- if .Values.tolerations }}
+      {{- if .Values.tolerations }}
       tolerations:
       {{- range .Values.tolerations }}
       - key: {{ .key | default ("") }}
@@ -45,4 +45,23 @@ spec:
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
       {{- end }}
-{{- end }}
+      {{- end }}
+      {{- if .Values.scheduling.affinity }}
+      {{- if .Values.scheduling.affinity.node }}
+      {{- if .Values.scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}

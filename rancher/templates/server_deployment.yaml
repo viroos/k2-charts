@@ -31,3 +31,22 @@ spec:
         effect: {{ .effect  | default ("")}}
       {{- end }}
       {{- end }}
+      {{- if .Values.server.scheduling.affinity }}
+      {{- if .Values.server.scheduling.affinity.node }}
+      {{- if .Values.server.scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.server.scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.server.scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}

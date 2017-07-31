@@ -44,12 +44,31 @@ spec:
         - /nginx-ingress-controller
         - --default-backend-service=default/default-http-backend
         - --nginx-configmap=default/nginx-ingress-controller
-      {{- if .Values.tolerations }}
+      {{- if .Values.nginx_tolerations }}
       tolerations:
-      {{- range .Values.tolerations }}
+      {{- range .Values.nginx_tolerations }}
       - key: {{ .key | default ("") }}
         value: {{ .value | default ("")}}
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
+      {{- if .Values.nginx_scheduling.affinity }}
+      {{- if .Values.nginx_scheduling.affinity.node }}
+      {{- if .Values.nginx_scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.nginx_scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.nginx_scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
       {{- end }}
       {{- end }}

@@ -128,3 +128,22 @@ spec:
         effect: {{ .effect  | default ("")}}
       {{- end }}
 {{- end }}
+{{- if .Values.Vault.scheduling.affinity }}
+{{- if .Values.Vault.scheduling.affinity.node }}
+{{- if .Values.Vault.scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.Vault.scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.Vault.scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

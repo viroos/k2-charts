@@ -19,6 +19,14 @@ OpenLdap:
    #   operator: Equal
    #   effect: NoSchedule
 
+  scheduling:
+    affinity:
+      node:
+        type: #requiredDuringSchedulingIgnoredDuringExecution
+        labels:
+        # - key: iamalabelkey
+        #   operator: In
+        #   values: ["value1", "value2"]
 
 PhpLdapAdmin:
   Image: "docker.io/osixia/phpldapadmin"
@@ -39,3 +47,11 @@ PhpLdapAdmin:
    #   value: taintValue
    #   operator: Equal
    #   effect: NoSchedule
+  scheduling:
+    affinity:
+      node:
+        type: #requiredDuringSchedulingIgnoredDuringExecution
+        labels:
+        # - key: iamalabelkey
+        #   operator: In
+        #   values: ["value1", "value2"]

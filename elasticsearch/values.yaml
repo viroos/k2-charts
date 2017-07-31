@@ -37,6 +37,14 @@ master_tolerations:
  #   value: taintValue
  #   operator: Equal
  #   effect: NoSchedule
+master_scheduling:
+  affinity:
+    node:
+      type: #requiredDuringSchedulingIgnoredDuringExecution
+      labels:
+      # - key: iamalabelkey
+      #   operator: In
+      #   values: ["value1", "value2"]
 
 #Cluster StatefulSet
 data_name: elasticsearch-data
@@ -59,3 +67,11 @@ data_tolerations:
  #   value: taintValue
  #   operator: Equal
  #   effect: NoSchedule
+data_scheduling:
+  affinity:
+    node:
+      type: #requiredDuringSchedulingIgnoredDuringExecution
+      labels:
+      # - key: iamalabelkey
+      #   operator: In
+      #   values: ["value1", "value2"]

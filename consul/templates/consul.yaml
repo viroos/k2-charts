@@ -110,12 +110,31 @@ spec:
           name: consuldns
         - containerPort: 8300
           name: server
-{{- if .Values.tolerations }}
+      {{- if .Values.Consul.tolerations }}
       tolerations:
-      {{- range .Values.tolerations }}
+      {{- range .Values.Consul.tolerations }}
       - key: {{ .key | default ("") }}
         value: {{ .value | default ("")}}
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
       {{- end }}
-{{- end }}
+      {{- end }}
+      {{- if .Values.Consul.scheduling.affinity }}
+      {{- if .Values.Consul.scheduling.affinity.node }}
+      {{- if .Values.Consul.scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.Consul.scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.Consul.scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}

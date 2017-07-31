@@ -8,6 +8,19 @@ server:
     repository: rancher/server
     tag: latest
     pullPolicy: IfNotPresent
+  tolerations:
+   # - key: taintKey
+   #   value: taintValue
+   #   operator: Equal
+   #   effect: NoSchedule
+  scheduling:
+    affinity:
+      node:
+        type: #requiredDuringSchedulingIgnoredDuringExecution
+        labels:
+        # - key: iamalabelkey
+        #   operator: In
+        #   values: ["value1", "value2"]
 agent:
   replicaCount: 1
   image:
@@ -19,6 +32,14 @@ agent:
    #   value: taintValue
    #   operator: Equal
    #   effect: NoSchedule
+  scheduling:
+    affinity:
+      node:
+        type: #requiredDuringSchedulingIgnoredDuringExecution
+        labels:
+        # - key: iamalabelkey
+        #   operator: In
+        #   values: ["value1", "value2"]
 service:
   name: rancher
   type: ClusterIP

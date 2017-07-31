@@ -69,8 +69,27 @@ spec:
       tolerations:
       {{- range .Values.tolerations }}
       - key: {{ .key | default ("") }}
-       value: {{ .value | default ("")}}
-       operator: {{ .operator | default ("Equal") }}
-       effect: {{ .effect  | default ("")}}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end}}
+      {{- end}}
+      {{- if .Values.scheduling.affinity }}
+      {{- if .Values.scheduling.affinity.node }}
+      {{- if .Values.scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
       {{- end }}
       {{- end }}

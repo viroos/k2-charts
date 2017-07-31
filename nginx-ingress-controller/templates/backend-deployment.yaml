@@ -48,3 +48,22 @@ spec:
         effect: {{ .effect  | default ("")}}
       {{- end }}
       {{- end }}
+      {{- if .Values.backend_scheduling.affinity }}
+      {{- if .Values.backend_scheduling.affinity.node }}
+      {{- if .Values.backend_scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.backend_scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.backend_scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
