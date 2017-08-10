@@ -12,7 +12,7 @@ image: docker.elastic.co/kibana/kibana:5.4.2
 cpu_limit: 100m
 cpu_requests: 100m
 env_name: ELASTICSEARCH_URL
-env_value: http://elasticsearch.kube-logging:9200
+env_value: http://elasticsearch.kube-system:9200
 container_port: 5601
 tolerations:
  # - key: taintKey
