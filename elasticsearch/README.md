@@ -1,3 +1,1 @@
-## ElasticSearch Cluster Chart for Kubernetes
-
-Both master pods and data pods are StatefulSets. 
+This chart is deprecated in favor of https://github.com/samsung-cnct/chart-elasticsearch
