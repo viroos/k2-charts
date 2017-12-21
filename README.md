@@ -1,3 +1,8 @@
+#  Deprecation notice:  This repository is no longer maintained by CNCT.
+Any charts that are still maintained by CNCT will have their own repositories in the samsung-cnct github org.
+
+If you have any questions or would like to take ownership of any charts in this repository feel free to contact us in [kubernetes slack](http://slack.k8s.io/) in channel #kraken
+
 ## K2 Helm charts
 
 This is a repository of Helm charts that could be useful for deploying a K2 cluster with the functionality your application requires.
