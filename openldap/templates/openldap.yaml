@@ -35,6 +35,18 @@ spec:
           value: {{.Values.OpenLdap.Domain}}
         - name: LDAP_ADMIN_PASSWORD
           value: {{.Values.OpenLdap.AdminPassword}}
+        volumeMounts:
+          - name: ldapdata
+            mountPath: /var/lib/ldap
+          - name: sldapdata
+            mountPath: /etc/ldap/slapd.d
+      volumes:
+        - name: ldapdata
+          persistentVolumeClaim:
+            claimName: ldapdataclaim
+        - name: sldapdata
+          persistentVolumeClaim:
+            claimName: sldapdataclaim
       {{- if .Values.OpenLdap.tolerations }}
       tolerations:
       {{- range .Values.OpenLdap.tolerations }}

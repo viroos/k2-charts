@@ -1,6 +1,6 @@
 OpenLdap:
   Image: "docker.io/osixia/openldap"
-  ImageTag: "1.1.7"
+  ImageTag: "1.2.0"
   ImagePullPolicy: "Always"
   Component: "openldap"
 
